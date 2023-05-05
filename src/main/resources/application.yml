@@ -1,14 +1,13 @@
 spring:
   datasource:
     url: jdbc:postgres://localhost:5432;databaseName=userDemo;TrustServerCertificate=True;encrypt=true;
-    password: "Password"
+    password: Password
     username: demo
     driver-class-name: com
 
   jpa:
-    properties:
+      show-sql: true
       hibernate:
-        hbm2ddl:
           auto: update
 
   jwt:
