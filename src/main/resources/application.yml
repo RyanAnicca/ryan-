@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgres://localhost:5432;databaseName=userDemo;TrustServerCertificate=True;encrypt=true;
+    password: "Password"
+    username: demo
+    driver-class-name: com
+
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+
+  jwt:
+    secret:
+
