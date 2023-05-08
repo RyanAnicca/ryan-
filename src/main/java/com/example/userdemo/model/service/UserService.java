@@ -1,5 +1,6 @@
 package com.example.userdemo.model.service;
 
+import com.example.userdemo.model.entity.User;
 import com.example.userdemo.model.entity.UserDetailVo;
 import com.example.userdemo.model.entity.UserDetailVoRequest;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,5 +17,5 @@ public interface UserService {
 
     public UserDetailVo selectById(int id);
 
-    public List<UserDetailVo> selectAll();
+    public List<User> selectAll();
 }

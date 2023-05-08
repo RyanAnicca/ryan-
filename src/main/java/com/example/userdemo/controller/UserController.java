@@ -68,7 +68,7 @@ public class UserController {
     // 搜尋所有會員
     @GetMapping("/selectalluser")
     @ResponseBody
-    public List<UserDetailVo> selectAll() {
+    public List<User> selectAll() {
         return userService.selectAll();
     }
 

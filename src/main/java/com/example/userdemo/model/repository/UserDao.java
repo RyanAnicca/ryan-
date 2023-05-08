@@ -2,12 +2,13 @@ package com.example.userdemo.model.repository;
 
 import com.example.userdemo.model.entity.User;
 import com.example.userdemo.model.entity.UserDetailVo;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import tk.mybatis.mapper.common.BaseMapper;
 
-public interface UserDao extends CrudRepository<User, Integer> {
+@Repository
+public interface UserDao extends BaseMapper<User> {
 
     User findByEmail(String email);
-
 
     UserDetailVo findById(int id);
 

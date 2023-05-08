@@ -2,11 +2,9 @@ package com.example.userdemo.model.service.impl;
 
 
 import com.example.userdemo.model.entity.User;
-import com.example.userdemo.model.entity.UserDetail;
 import com.example.userdemo.model.entity.UserDetailVo;
 import com.example.userdemo.model.entity.UserDetailVoRequest;
 import com.example.userdemo.model.repository.UserDao;
-import com.example.userdemo.model.repository.UserDetailDao;
 import com.example.userdemo.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,9 +24,6 @@ public class UserServiceImpl implements UserService {
     public UserDao userDao;
 
     @Autowired
-    public UserDetailDao userDetailDao;
-
-    @Autowired
     private PasswordEncoder bcryptEncoder;
 
 
@@ -44,18 +39,16 @@ public class UserServiceImpl implements UserService {
 
     public UserDetailVoRequest save(UserDetailVoRequest user) {
         User original = userDao.findByEmail(user.getEmail());
-        if (original==null){
+        if (original == null) {
             User newUser = new User();
             Date now = new Date();
-            UserDetail newUserDetail = new UserDetail();
             newUser.setEmail(user.getEmail());
             newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-            userDao.save(newUser);
-            newUserDetail.setUsername(user.getUsername());
-            newUserDetail.setUserphone(user.getUserphone());
-            newUserDetail.setRegisterdata(now);
-            newUserDetail.setUpdatadata(null);
-            userDetailDao.save(newUserDetail);
+            newUser.setUsername(user.getUsername());
+            newUser.setUserphone(user.getUserphone());
+            newUser.setRegisterdata(now);
+            newUser.setUpdatadata(null);
+            userDao.insert(newUser);
 
             return user;
         }
@@ -65,15 +58,13 @@ public class UserServiceImpl implements UserService {
     public UserDetailVoRequest updateById(UserDetailVoRequest user) {
         User newUser = new User();
         Date now = new Date();
-        UserDetail newUserDetail = new UserDetail();
         newUser.setEmail(user.getEmail());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-        userDao.save(newUser);
-        newUserDetail.setUsername(user.getUsername());
-        newUserDetail.setUserphone(user.getUserphone());
-        newUserDetail.setRegisterdata(user.getRegisterdata());
-        newUserDetail.setUpdatadata(now);
-        userDetailDao.save(newUserDetail);
+        newUser.setUsername(user.getUsername());
+        newUser.setUserphone(user.getUserphone());
+        newUser.setRegisterdata(user.getRegisterdata());
+        newUser.setUpdatadata(now);
+        userDao.insert(newUser);
 
         return user;
     }
@@ -83,9 +74,9 @@ public class UserServiceImpl implements UserService {
         return userDao.findById(id);
     }
 
-    public List<UserDetailVo> selectAll() {
+    public List<User> selectAll() {
 
-        return userDao.findAll();
+        return userDao.selectAll();
     }
 
 
