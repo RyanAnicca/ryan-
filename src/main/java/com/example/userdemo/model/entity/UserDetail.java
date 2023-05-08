@@ -14,21 +14,22 @@ import java.util.Date;
 public class UserDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+    @Column(name = "dtid")
+    private long dtid;
     // 不顯示(pk)
-    @Column(name = "userid")
-    private String userid;
-    // 會員 ID
     @Column(name = "username")
-    private Integer username;
+    private String username;
     // 會員姓名
     @Column(name = "userphone")
     private Integer userphone;
     // 電話
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     @Column(name = "registerdata")
     private Date registerdata;
     // 會員建立日期
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @Column(name = "updatadata")
+    private Date updatadata;
+    // 會員修改日期
 }

@@ -1,0 +1,18 @@
+package com.example.userdemo.model.entity;
+
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class UserDetailVoRequest {
+
+    private String email;
+    private String password;
+    private String username;
+    private Integer userphone;
+    private Date registerdata;
+    private Date updatadata;
+
+
+}

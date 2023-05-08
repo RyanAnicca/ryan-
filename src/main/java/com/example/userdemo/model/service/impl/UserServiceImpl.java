@@ -1,15 +1,23 @@
 package com.example.userdemo.model.service.impl;
 
-import com.example.userdemo.exception.AlreadyExistsException;
+
 import com.example.userdemo.model.entity.User;
-import com.example.userdemo.model.entity.UserDTO;
+import com.example.userdemo.model.entity.UserDetail;
+import com.example.userdemo.model.entity.UserDetailVo;
+import com.example.userdemo.model.entity.UserDetailVoRequest;
 import com.example.userdemo.model.repository.UserDao;
+import com.example.userdemo.model.repository.UserDetailDao;
 import com.example.userdemo.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,48 +26,64 @@ public class UserServiceImpl implements UserService {
     public UserDao userDao;
 
     @Autowired
+    public UserDetailDao userDetailDao;
+
+    @Autowired
     private PasswordEncoder bcryptEncoder;
 
 
-    public void register(UserDTO dto) {
-        // 预检查用户名是否存在
-        Optional<User> userOptional = this.getUserEmail(dto.getUserEmail());
-        if (userOptional.isPresent()) {
-            throw new AlreadyExistsException("Save failed, the user email already exist.");
+    @Override
+    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+        User user = userDao.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with email: " + email);
         }
-        User user = userMapper.convertOfUserRegisterDTO(dto);
-        // 将登录密码进行加密
-        String cryptPassword = bcryptEncoder.encode(dto.getPassword());
-        user.setPassword(cryptPassword);
-        try {
-            userDao.save(user);
-        } catch (DataIntegrityViolationException e) {
-            // 如果预检查没有检查到重复，就利用数据库的完整性检查
-            throw new AlreadyExistsException("Save failed, the user email already exist.");
-
-        }
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                new ArrayList<>());
     }
 
-    public User save(User user) {
+    public UserDetailVoRequest save(UserDetailVoRequest user) {
+        User original = userDao.findByEmail(user.getEmail());
+        if (original==null){
+            User newUser = new User();
+            Date now = new Date();
+            UserDetail newUserDetail = new UserDetail();
+            newUser.setEmail(user.getEmail());
+            newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+            userDao.save(newUser);
+            newUserDetail.setUsername(user.getUsername());
+            newUserDetail.setUserphone(user.getUserphone());
+            newUserDetail.setRegisterdata(now);
+            newUserDetail.setUpdatadata(null);
+            userDetailDao.save(newUserDetail);
+
+            return user;
+        }
+        throw new IllegalArgumentException("User with email " + user.getEmail() + " already exists");
+    }
+
+    public UserDetailVoRequest updateById(UserDetailVoRequest user) {
         User newUser = new User();
+        Date now = new Date();
+        UserDetail newUserDetail = new UserDetail();
         newUser.setEmail(user.getEmail());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-        return userDao.save(newUser);
+        userDao.save(newUser);
+        newUserDetail.setUsername(user.getUsername());
+        newUserDetail.setUserphone(user.getUserphone());
+        newUserDetail.setRegisterdata(user.getRegisterdata());
+        newUserDetail.setUpdatadata(now);
+        userDetailDao.save(newUserDetail);
+
+        return user;
     }
 
-    public User updateById(User user) {
-        User newUser = new User();
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-        return userDao.save(newUser);
+    public UserDetailVo selectById(int id) {
+
+        return userDao.findById(id);
     }
 
-    public Iterable<User> selectById(int id) {
-
-        return userDao.findById();
-    }
-
-    public Iterable<User> selectAll() {
+    public List<UserDetailVo> selectAll() {
 
         return userDao.findAll();
     }
