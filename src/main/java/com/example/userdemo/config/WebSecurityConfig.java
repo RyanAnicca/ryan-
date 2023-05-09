@@ -20,11 +20,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    private JwtAuthenticationFilter jwtAuthFilter;
     @Autowired
     private final AuthenticationProvider authenticationProvider;
-    @Autowired
-    private LogoutSuccessHandlerImpl logoutSuccessHandler;
+//    @Autowired
+//    private LogoutSuccessHandlerImpl logoutSuccessHandler;
     // @Autowired
 
     @Bean
@@ -43,18 +43,18 @@ public class WebSecurityConfig {
                     )
                     // 啟用jwt監聽
                     .authenticationProvider(authenticationProvider)
-                    .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                     // 登入頁面
                     .formLogin(formLogin -> formLogin
                             .loginPage("/login")
                             .permitAll())
 
                     // 登出頁面
-                    .logout(logout -> logout
-                            .logoutUrl("/logout")
-                            .logoutSuccessHandler(logoutSuccessHandler)
-                            .logoutSuccessUrl("/")
-                            .permitAll())
+//                    .logout(logout -> logout
+//                            .logoutUrl("/logout")
+//                            .logoutSuccessHandler(logoutSuccessHandler)
+//                            .logoutSuccessUrl("/")
+//                            .permitAll())
                     // 若無權限指定路徑
                     // .exceptionHandling(exceptionHandling -> {
                     // System.out.println("88");

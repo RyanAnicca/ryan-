@@ -2,13 +2,15 @@ package com.example.userdemo.model.service.impl;
 
 
 import com.example.userdemo.model.entity.User;
-import com.example.userdemo.model.entity.UserDetailVo;
-import com.example.userdemo.model.entity.UserDetailVoRequest;
+import com.example.userdemo.model.dto.UserDetailVo;
+import com.example.userdemo.model.dto.UserDetailVoRequest;
+
 import com.example.userdemo.model.repository.UserDao;
 import com.example.userdemo.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

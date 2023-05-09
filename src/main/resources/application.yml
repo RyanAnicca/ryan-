@@ -1,15 +1,26 @@
+server:
+  port: 8443
+  servlet:
+    context-path: /userdemo
+    encoding:
+      charset: UTF-8
 spring:
   datasource:
-    url: jdbc:postgres://localhost:5432;databaseName=userDemo;TrustServerCertificate=True;encrypt=true;
+    url: jdbc:postgresql://localhost:5432;databaseName=userDemo;TrustServerCertificate=True;encrypt=true;
     password: Password
     username: demo
-    driver-class-name: com
+    driver-class-name: org.postgresql.Driver
 
   jpa:
-      show-sql: true
+    database: postgresql
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
       hibernate:
-          auto: update
+        format_sql: true
+application:
+  security:
+    jwt:
 
-  jwt:
-    secret:
 

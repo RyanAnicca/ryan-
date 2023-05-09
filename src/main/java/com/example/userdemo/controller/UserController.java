@@ -1,7 +1,10 @@
 package com.example.userdemo.controller;
 
-import com.example.userdemo.config.JwtTokenUtil;
+import com.example.userdemo.model.dto.RegisterRequest;
+import com.example.userdemo.model.dto.UserDetailVo;
+import com.example.userdemo.model.dto.UserDetailVoRequest;
 import com.example.userdemo.model.entity.*;
+import com.example.userdemo.model.service.JwtService;
 import com.example.userdemo.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +27,15 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private JwtService jwtService;
 
     @Autowired
     private UserService userService;
+
+    @PostMapping(value = "/register")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
+        //
+    }
 
     @PostMapping(value = "/authenticate")
     @ResponseBody
@@ -39,17 +47,20 @@ public class UserController {
         final UserDetails userDetails = userService
                 .loadUserByEmail(authenticationRequest.getEmail());
 
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        final String token = jwtService.generateToken(userDetails, remember);
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    @PostMapping(value = "/register")
-    @ResponseBody
-    public String saveUser(@RequestBody UserDetailVoRequest user) {
-        ResponseEntity.ok(userService.save(user));
-        return "註冊成功";
-    }
+//    @PostMapping(value = "/register")
+//    @ResponseBody
+//    public String saveUser(@RequestBody UserDetailVoRequest user) {
+//        ResponseEntity.ok(userService.save(user));
+//        return "註冊成功";
+//    }
+
+
+
 
     @PutMapping(value = "/updata")
     @ResponseBody
