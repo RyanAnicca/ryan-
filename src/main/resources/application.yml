@@ -8,21 +8,13 @@ server:
       charset: UTF-8
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432;databaseName=userDemo;
-    password: Password
-    username: demo
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    database: postgresql
-    hibernate:
-      ddl-auto: create-drop
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-application:
-  security:
-    jwt:
-
-
+    # -------------MSSQL-------------
+    url: jdbc:sqlserver://localhost:1433;databaseName=userDemo;TrustServerCertificate=True;encrypt=true;
+    password: "0000"
+    username: sa
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    # -------------PGSQL-------------
+#    url: jdbc:postgresql://localhost:5432;databaseName=userDemo;
+#    password: Password
+#    username: demo
+    #    driver-class-name: org.postgresql.Driver

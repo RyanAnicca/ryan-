@@ -6,7 +6,7 @@ import com.example.userdemo.model.dto.AuthenticationResponse;
 import com.example.userdemo.model.dto.RegisterRequest;
 import com.example.userdemo.model.entity.Role;
 import com.example.userdemo.model.entity.User;
-import com.example.userdemo.model.repository.RoleRepository;
+//import com.example.userdemo.model.repository.RoleRepository;
 import com.example.userdemo.model.repository.UserDao;
 import com.example.userdemo.model.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ public class AuthenticationService {
 
 
     private final UserDao userDao;
-    private final RoleRepository roleRepository;
+    //    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -42,8 +42,9 @@ public class AuthenticationService {
             Date now = new Date();
             // Name
             User user = User.builder()
-                    .username(request.getName())
+                    .username(request.getUsername())
                     .email(request.getEmail())
+                    .userphone(request.getUserphone())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(Role.USER)
                     .registerdata(now)
@@ -53,6 +54,7 @@ public class AuthenticationService {
                     .isenabled(true)
                     .accountnonlocked(true)
                     .build();
+            System.out.println(user);
             userDao.insert(user);
             return true;
         } catch (Exception e) {
@@ -63,7 +65,7 @@ public class AuthenticationService {
 
     // 登入
     @Transactional
-    public Boolean authenticate(AuthenticationRequest arequest, HttpServletResponse response,HttpServletRequest httpRequest) {
+    public Boolean authenticate(AuthenticationRequest arequest, HttpServletResponse response, HttpServletRequest httpRequest) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -80,24 +82,19 @@ public class AuthenticationService {
                     arequest.getRememberMe());
             jwtService.refreshTokenToSession(httpRequest, authenticationResponse);
             return true;
-        }
-        catch (LockedException e) {
+        } catch (LockedException e) {
             // e.printStackTrace();
             return null;
-        }
-        catch (AccountExpiredException e) {
+        } catch (AccountExpiredException e) {
             // e.printStackTrace();
             return null;
-        }
-        catch (DisabledException e) {
+        } catch (DisabledException e) {
             // e.printStackTrace();
             return null;
-        }
-        catch (CredentialsExpiredException e) {
+        } catch (CredentialsExpiredException e) {
             // e.printStackTrace();
             return null;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // e.printStackTrace();
             return false;
         }
@@ -127,7 +124,7 @@ public class AuthenticationService {
     }
 
 
-    public List<User> getroles() {
-        return roleRepository.selectAll();
-    }
+//    public List<User> getroles() {
+//        return roleRepository.selectAll();
+//    }
 }

@@ -21,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Data
-@Table(name = "user")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +36,7 @@ public class User implements UserDetails {
     private String username;
     // 會員姓名
     @Column(name = "userphone")
-    private Integer userphone;
+    private String userphone;
     // 電話
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     @Column(name = "registerdata")
@@ -96,7 +95,7 @@ public class User implements UserDetails {
 //    email varchar(255) not null,
 //    password varchar(255) not null,
 //    username varchar(255) not null,
-//    userphone integer not null,
+//    userphone varchar(255) not null,
 //    registerdata timestamp not null,
 //    updatadata timestamp null,
 //    role varchar(255) not null,

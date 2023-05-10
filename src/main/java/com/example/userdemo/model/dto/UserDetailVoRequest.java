@@ -10,7 +10,7 @@ public class UserDetailVoRequest {
     private String email;
     private String password;
     private String username;
-    private Integer userphone;
+    private String userphone;
     private Date registerdata;
     private Date updatadata;
 

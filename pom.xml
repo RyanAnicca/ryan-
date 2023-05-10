@@ -37,6 +37,14 @@
             <version>4.2.2</version>
         </dependency>
 
+
+        <!-- SQL server MS資料庫-->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- PGSQL server PG資料庫-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>

@@ -19,13 +19,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfig {
 
+
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
     private JwtAuthenticationFilter jwtAuthFilter;
     @Autowired
     private final AuthenticationProvider authenticationProvider;
 //    @Autowired
 //    private LogoutSuccessHandlerImpl logoutSuccessHandler;
-    // @Autowired
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
@@ -38,16 +40,15 @@ public class WebSecurityConfig {
                             .frameOptions().sameOrigin())
                     // 設定是否需要驗證的路徑(更改成使用註釋)
                     .authorizeHttpRequests(a -> a
-                            .requestMatchers("/user/authenticate", "/user/register").hasAnyAuthority("SUPERADMIN")
-                            .anyRequest().permitAll()
+                            .requestMatchers("/api/v1/auth/**").permitAll()
                     )
                     // 啟用jwt監聽
                     .authenticationProvider(authenticationProvider)
                     .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                     // 登入頁面
-                    .formLogin(formLogin -> formLogin
-                            .loginPage("/login")
-                            .permitAll())
+//                    .formLogin(formLogin -> formLogin
+//                            .loginPage("/login")
+//                            .permitAll())
 
                     // 登出頁面
 //                    .logout(logout -> logout
@@ -56,10 +57,9 @@ public class WebSecurityConfig {
 //                            .logoutSuccessUrl("/")
 //                            .permitAll())
                     // 若無權限指定路徑
-                    // .exceptionHandling(exceptionHandling -> {
-                    // System.out.println("88");
-                    // exceptionHandling.accessDeniedPage("/home");
-                    // })
+                    .exceptionHandling()
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .and()
                     .sessionManagement(session -> session
                             .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
             return http.build();
