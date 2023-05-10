@@ -14,4 +14,6 @@ public interface UserDetailVo {
 
     Date getupdatadata();
 
+    Boolean getaccountlocked();
+
 }

@@ -9,7 +9,6 @@ import com.example.userdemo.model.entity.User;
 import com.example.userdemo.model.repository.RoleRepository;
 import com.example.userdemo.model.repository.UserDao;
 import com.example.userdemo.model.service.JwtService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -27,6 +26,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+
 
     private final UserDao userDao;
     private final RoleRepository roleRepository;
@@ -48,6 +48,10 @@ public class AuthenticationService {
                     .role(Role.USER)
                     .registerdata(now)
                     .updatadata(null)
+                    .accountnonexpired(true)
+                    .iscredentialsnonexpired(true)
+                    .isenabled(true)
+                    .accountnonlocked(true)
                     .build();
             userDao.insert(user);
             return true;
@@ -59,22 +63,22 @@ public class AuthenticationService {
 
     // 登入
     @Transactional
-    public Boolean authenticate(AuthenticationRequest request, HttpServletResponse response) {
+    public Boolean authenticate(AuthenticationRequest arequest, HttpServletResponse response,HttpServletRequest httpRequest) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()));
-            User userProfiles = userDao.findByEmail(request.getEmail());
+                            arequest.getEmail(),
+                            arequest.getPassword()));
+            User userProfiles = userDao.findByEmail(arequest.getEmail());
             // 權限是否正常
             if (!(userProfiles.getAccountnonexpired() && userProfiles.getAccountnonlocked() && userProfiles.isEnabled()
                     && userProfiles.isCredentialsNonExpired())) {
-                jwtService.removeToken(response);
+                jwtService.removeToken(httpRequest.getSession());
                 response.sendRedirect("/morari/login?error=user_not_authorized");
             }
             AuthenticationResponse authenticationResponse = jwtService.generateToken(userProfiles,
-                    request.getRememberMe());
-            jwtService.removeToken(response, authenticationResponse);
+                    arequest.getRememberMe());
+            jwtService.refreshTokenToSession(httpRequest, authenticationResponse);
             return true;
         }
         catch (LockedException e) {
@@ -101,11 +105,11 @@ public class AuthenticationService {
 
     // 登入狀態
     public Boolean loginstate(HttpServletRequest request) {
-        HttpSession Session = request.getSession();
+        HttpSession session = request.getSession();
         String sessionjwt = null;
         Boolean islogin = false;
-        if (Session != null) {
-            sessionjwt = jwtService.getToken(Session, MyConstants.JWT_COOKIE_NAME);
+        if (session != null) {
+            sessionjwt = jwtService.getToken(session, MyConstants.JWT_ACCESS_TOKEN_NAME);
         }
         if (sessionjwt == null || sessionjwt.isEmpty()) {
             return false;
@@ -123,4 +127,7 @@ public class AuthenticationService {
     }
 
 
+    public List<User> getroles() {
+        return roleRepository.selectAll();
+    }
 }

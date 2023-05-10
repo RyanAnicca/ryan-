@@ -18,4 +18,6 @@ public interface UserService {
     public UserDetailVo selectById(int id);
 
     public List<User> selectAll();
+
+    public Boolean updateaccountlocked(int id, Boolean accountnonlocked);
 }

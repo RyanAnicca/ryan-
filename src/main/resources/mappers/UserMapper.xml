@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.userdemo.model.repository.UserDao">
+
+    <resultMap id="User" type="com.example.userdemo.model.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="userphone" property="userphone" jdbcType="VARCHAR"/>
+        <result column="registerdata" property="registerdata" jdbcType="TIMESTAMP"/>
+        <result column="updatadata" property="updatadata" jdbcType="TIMESTAMP"/>
+        <result column="role" property="role" jdbcType="VARCHAR"/>
+        <result column="accountnonexpired" property="accountnonexpired" jdbcType="BOOLEAN"/>
+        <result column="accountnonlocked" property="accountnonlocked" jdbcType="BOOLEAN"/>
+        <result column="iscredentialsnonexpired" property="iscredentialsnonexpired" jdbcType="BOOLEAN"/>
+        <result column="iscredentialsnonexpired" property="iscredentialsnonexpired" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <select id="getAllCustomer" resultMap="BaseResultMap"
+            resultType="com.jj.learning.springboot.chapter16.domain.Customer">
+        select *
+        from customer;
+    </select>
+
+    <select id="getCustomerByName" resultMap="BaseResultMap">
+        select *
+        from customer
+        where name = #{name};
+    </select>
+
+    <insert id="addCustomer" parameterType="com.jj.learning.springboot.chapter16.domain.Customer">
+        insert into customer (name, age, create_by, create_dt)
+        values (#{name}, #{age}, 'SYSTEM', now());
+    </insert>
+
+    <update id="updateCustomerById" parameterType="com.jj.learning.springboot.chapter16.domain.Customer">
+        update customer
+        set name=#{name},
+            age=#{age},
+            modify_by=#{modifyBy},
+            modify_dt=now()
+        where id = #{id};
+    </update>
+
+    <delete id="deleteAllCustomer">
+        delete
+        from customer;
+    </delete>
+
+    <delete id="deleteCustomerById">
+        delete
+        from customer
+        where id = #{id};
+    </delete>
+</mapper>

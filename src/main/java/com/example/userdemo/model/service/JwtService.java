@@ -8,16 +8,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
@@ -84,6 +82,16 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    // 刷新新增令牌至Session
+    public void refreshTokenToSession(HttpServletRequest request, AuthenticationResponse authenticationResponse) {
+        HttpSession session = request.getSession();
+        session.setAttribute(MyConstants.JWT_ACCESS_TOKEN_NAME, authenticationResponse.getAccessToken());
+        session.setAttribute(MyConstants.JWT_REFRESH_TOKEN_NAME, authenticationResponse.getRefreshToken());
+        session.setMaxInactiveInterval(MyConstants.ACCESS_TOKEN_VALIDATION_SECOND.intValue()); // 設定 Session 過期時間
+
+    }
+
+
     // 製作JWT
     public AuthenticationResponse generateToken(
             Map<String, Object> extraClaims,
@@ -99,10 +107,9 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(
-                        new Date(System.currentTimeMillis() + (rememberMe ? MyConstants.REMEMBER_REFRESH_TOKEN_VALIDATION_SECOND
-                                : MyConstants.REFRESH_TOKEN_VALIDATION_SECOND)))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS512)
+                .setExpiration(new Date(System.currentTimeMillis() + (rememberMe ? MyConstants.REMEMBER_REFRESH_TOKEN_VALIDATION_SECOND
+                        : MyConstants.REFRESH_TOKEN_VALIDATION_SECOND)))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
         // 製作accessToken
         String accessToken = Jwts.builder()
@@ -110,47 +117,30 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + (MyConstants.ACCESS_TOKEN_VALIDATION_SECOND)))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS512)
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
         return new AuthenticationResponse(accessToken, refreshToken, "bearer");
     }
 
-    // 設置HttpOnly&Https的Cookie
-    public Cookie setCookie(String key, String value) {
-        Cookie cookie = new Cookie(key, value);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        return cookie;
+    // 設置Httpsession
+    public void setSession(HttpServletRequest request, String key, String value) {
+        HttpSession session = request.getSession();
+        session.setAttribute(key, value);
     }
 
-    // Cookie拿取JWT
-    public String getToken(Cookie[] cookies, String jwtName) {
-        return Arrays.stream(cookies)
-                .filter(c -> c.getName().equals(jwtName))
-                .map(Cookie::getValue)
-                .findFirst()
+    // session拿取JWT
+    public String getToken(HttpSession session, String jwtName) {
+        return Optional.ofNullable(session)
+                .map(s -> s.getAttribute(jwtName))
+                .map(Object::toString)
                 .orElse(null);
     }
+
     // 清空雙JWT
-    public void removeToken(HttpServletResponse response) {
-        Cookie accessTokenCookie = setCookie(MyConstants.JWT_COOKIE_NAME,
-                null);
-        accessTokenCookie.setMaxAge(0);
-        response.addCookie(accessTokenCookie);
-
-        Cookie refreshTokenCookie = setCookie(MyConstants.JWT_REFRESH_COOKIE_NAME,
-                null);
-        refreshTokenCookie.setMaxAge(0);
-        response.addCookie(refreshTokenCookie);
-
-        Cookie googleCookie = setCookie(MyConstants.GOOGLE_COOKIE_NAME,
-                null);
-        googleCookie.setMaxAge(0);
-        googleCookie.setHttpOnly(true);
-        googleCookie.setSecure(true);
-        googleCookie.setPath("/morari");
-        ;
-        response.addCookie(googleCookie);
+    public void removeToken(HttpSession session) {
+        session.removeAttribute(MyConstants.JWT_ACCESS_TOKEN_NAME);
+        session.removeAttribute(MyConstants.JWT_REFRESH_TOKEN_NAME);
     }
+
+
 }

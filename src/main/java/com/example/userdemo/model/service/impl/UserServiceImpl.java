@@ -7,6 +7,7 @@ import com.example.userdemo.model.dto.UserDetailVoRequest;
 
 import com.example.userdemo.model.repository.UserDao;
 import com.example.userdemo.model.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -79,6 +81,17 @@ public class UserServiceImpl implements UserService {
     public List<User> selectAll() {
 
         return userDao.selectAll();
+    }
+
+    public Boolean updateaccountlocked(int id, Boolean accountnonlocked) {
+        try {
+            User user = userDao.selectByPrimaryKey(id);
+            user.setAccountnonlocked(accountnonlocked);
+            userDao.updateByPrimaryKey(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 

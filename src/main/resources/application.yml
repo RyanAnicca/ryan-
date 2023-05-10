@@ -1,3 +1,5 @@
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
 server:
   port: 8443
   servlet:
@@ -6,7 +8,7 @@ server:
       charset: UTF-8
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432;databaseName=userDemo;TrustServerCertificate=True;encrypt=true;
+    url: jdbc:postgresql://localhost:5432;databaseName=userDemo;
     password: Password
     username: demo
     driver-class-name: org.postgresql.Driver
