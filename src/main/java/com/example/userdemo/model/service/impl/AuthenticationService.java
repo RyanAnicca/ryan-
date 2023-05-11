@@ -4,8 +4,7 @@ import com.example.userdemo.config.MyConstants;
 import com.example.userdemo.model.dto.AuthenticationRequest;
 import com.example.userdemo.model.dto.AuthenticationResponse;
 import com.example.userdemo.model.dto.RegisterRequest;
-import com.example.userdemo.model.entity.Role;
-import com.example.userdemo.model.entity.User;
+import com.example.userdemo.model.entity.Users;
 //import com.example.userdemo.model.repository.RoleRepository;
 import com.example.userdemo.model.repository.UserDao;
 import com.example.userdemo.model.service.JwtService;
@@ -21,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -41,12 +39,12 @@ public class AuthenticationService {
         try {
             Date now = new Date();
             // Name
-            User user = User.builder()
+            Users users = Users.builder()
                     .username(request.getUsername())
                     .email(request.getEmail())
                     .userphone(request.getUserphone())
                     .password(passwordEncoder.encode(request.getPassword()))
-                    .role(Role.USER)
+                    .role("USER")
                     .registerdata(now)
                     .updatadata(null)
                     .accountnonexpired(true)
@@ -54,8 +52,7 @@ public class AuthenticationService {
                     .isenabled(true)
                     .accountnonlocked(true)
                     .build();
-            System.out.println(user);
-            userDao.insert(user);
+            userDao.save(users);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,14 +68,14 @@ public class AuthenticationService {
                     new UsernamePasswordAuthenticationToken(
                             arequest.getEmail(),
                             arequest.getPassword()));
-            User userProfiles = userDao.findByEmail(arequest.getEmail());
+            Users usersProfiles = userDao.findByEmail(arequest.getEmail());
             // 權限是否正常
-            if (!(userProfiles.getAccountnonexpired() && userProfiles.getAccountnonlocked() && userProfiles.isEnabled()
-                    && userProfiles.isCredentialsNonExpired())) {
+            if (!(usersProfiles.getAccountnonexpired() && usersProfiles.getAccountnonlocked() && usersProfiles.isEnabled()
+                    && usersProfiles.isCredentialsNonExpired())) {
                 jwtService.removeToken(httpRequest.getSession());
                 response.sendRedirect("/morari/login?error=user_not_authorized");
             }
-            AuthenticationResponse authenticationResponse = jwtService.generateToken(userProfiles,
+            AuthenticationResponse authenticationResponse = jwtService.generateToken(usersProfiles,
                     arequest.getRememberMe());
             jwtService.refreshTokenToSession(httpRequest, authenticationResponse);
             return true;

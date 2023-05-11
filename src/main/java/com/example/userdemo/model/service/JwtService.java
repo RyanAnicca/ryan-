@@ -2,15 +2,15 @@ package com.example.userdemo.model.service;
 
 import com.example.userdemo.config.MyConstants;
 import com.example.userdemo.model.dto.AuthenticationResponse;
-import com.example.userdemo.model.entity.User;
+import com.example.userdemo.model.entity.Users;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -39,19 +39,6 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails, rememberMe);
     }
 
-//    public String generateToken(
-//            Map<String, Object> extraClaims,
-//            UserDetails userDetails
-//    ) {
-//        return Jwts
-//                .builder()
-//                .setClaims(extraClaims)
-//                .setSubject(userDetails.getUsername())
-//                .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
-//                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-//                .compact();
-//    }
 
     // 驗證令牌是否有效
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -98,8 +85,8 @@ public class JwtService {
             UserDetails userDetails,
             Boolean rememberMe) {
         // 放自定義物件
-        User user = (User) userDetails;
-        extraClaims.put("id", user.getId());
+        Users users = (Users) userDetails;
+        extraClaims.put("id", users.getId());
         extraClaims.put("remember", rememberMe);
         extraClaims.put("lastLoginTime", String.valueOf(System.currentTimeMillis()));
         // 製作refreshToken

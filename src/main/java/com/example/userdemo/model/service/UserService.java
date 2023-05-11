@@ -1,6 +1,6 @@
 package com.example.userdemo.model.service;
 
-import com.example.userdemo.model.entity.User;
+import com.example.userdemo.model.entity.Users;
 import com.example.userdemo.model.dto.UserDetailVo;
 import com.example.userdemo.model.dto.UserDetailVoRequest;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +17,7 @@ public interface UserService {
 
     public UserDetailVo selectById(int id);
 
-    public List<User> selectAll();
+    public List<Users> selectAll();
 
     public Boolean updateaccountlocked(int id, Boolean accountnonlocked);
 }

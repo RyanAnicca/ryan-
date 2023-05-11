@@ -1,13 +1,12 @@
 package com.example.userdemo.model.service.impl;
 
 
-import com.example.userdemo.model.entity.User;
+import com.example.userdemo.model.entity.Users;
 import com.example.userdemo.model.dto.UserDetailVo;
 import com.example.userdemo.model.dto.UserDetailVoRequest;
 
 import com.example.userdemo.model.repository.UserDao;
 import com.example.userdemo.model.service.UserService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,26 +31,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
-        User user = userDao.findByEmail(email);
-        if (user == null) {
+        Users users = userDao.findByEmail(email);
+        if (users == null) {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+        return new org.springframework.security.core.userdetails.User(users.getEmail(), users.getPassword(),
                 new ArrayList<>());
     }
 
     public UserDetailVoRequest save(UserDetailVoRequest user) {
-        User original = userDao.findByEmail(user.getEmail());
+        Users original = userDao.findByEmail(user.getEmail());
         if (original == null) {
-            User newUser = new User();
+            Users newUsers = new Users();
             Date now = new Date();
-            newUser.setEmail(user.getEmail());
-            newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-            newUser.setUsername(user.getUsername());
-            newUser.setUserphone(user.getUserphone());
-            newUser.setRegisterdata(now);
-            newUser.setUpdatadata(null);
-            userDao.insert(newUser);
+            newUsers.setEmail(user.getEmail());
+            newUsers.setPassword(bcryptEncoder.encode(user.getPassword()));
+            newUsers.setUsername(user.getUsername());
+            newUsers.setUserphone(user.getUserphone());
+            newUsers.setRegisterdata(now);
+            newUsers.setUpdatadata(null);
+            userDao.save(newUsers);
 
             return user;
         }
@@ -60,15 +58,15 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserDetailVoRequest updateById(UserDetailVoRequest user) {
-        User newUser = new User();
+        Users newUsers = new Users();
         Date now = new Date();
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-        newUser.setUsername(user.getUsername());
-        newUser.setUserphone(user.getUserphone());
-        newUser.setRegisterdata(user.getRegisterdata());
-        newUser.setUpdatadata(now);
-        userDao.insert(newUser);
+        newUsers.setEmail(user.getEmail());
+        newUsers.setPassword(bcryptEncoder.encode(user.getPassword()));
+        newUsers.setUsername(user.getUsername());
+        newUsers.setUserphone(user.getUserphone());
+        newUsers.setRegisterdata(user.getRegisterdata());
+        newUsers.setUpdatadata(now);
+        userDao.save(newUsers);
 
         return user;
     }
@@ -78,16 +76,17 @@ public class UserServiceImpl implements UserService {
         return userDao.findById(id);
     }
 
-    public List<User> selectAll() {
+    public List<Users> selectAll() {
 
-        return userDao.selectAll();
+//        return userDao.selectAll();
+        return null;
     }
 
     public Boolean updateaccountlocked(int id, Boolean accountnonlocked) {
         try {
-            User user = userDao.selectByPrimaryKey(id);
-            user.setAccountnonlocked(accountnonlocked);
-            userDao.updateByPrimaryKey(user);
+//            User user = userDao.selectByPrimaryKey(id);
+//            user.setAccountnonlocked(accountnonlocked);
+//            userDao.updateByPrimaryKey(user);
             return true;
         } catch (Exception e) {
             return false;
