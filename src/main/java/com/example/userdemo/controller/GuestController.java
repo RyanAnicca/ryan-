@@ -1,19 +1,22 @@
 package com.example.userdemo.controller;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
-@RequestMapping("/api/v1/demo-controller")
-public class DemoController {
+@RequestMapping("/test")
+public class GuestController {
 
     @GetMapping
-    public ResponseEntity<String> sayHello(){
-        return ResponseEntity.ok("hello");
+    @ResponseBody
+    public String wellcome() {
+        return "wellcome";
     }
 
+    @GetMapping("/home")
+    public String index() {
+        return "index";
+    }
 }

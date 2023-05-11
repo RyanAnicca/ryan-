@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+//@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfig {
 
 
@@ -35,33 +35,37 @@ public class WebSecurityConfig {
             http
                     // 關閉CSRF
                     .csrf().disable()
-                    //     Frame 同源設定
+                    // Frame 同源設定
                     .headers(h -> h
                             .frameOptions().sameOrigin())
                     // 設定是否需要驗證的路徑(更改成使用註釋)
                     .authorizeHttpRequests(a -> a
-                            .requestMatchers("/api/v1/auth/**").permitAll()
+                            .requestMatchers("/api/v1/auth/**","/home", "/test/**").permitAll()
                     )
+                    //無權限 跳轉
+//                    .exceptionHandling()
+//                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
                     // 啟用jwt監聽
                     .authenticationProvider(authenticationProvider)
-                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                    // 登入頁面
+                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            // 登入頁面
 //                    .formLogin(formLogin -> formLogin
 //                            .loginPage("/login")
 //                            .permitAll())
 
-                    // 登出頁面
+            // 登出頁面
 //                    .logout(logout -> logout
 //                            .logoutUrl("/logout")
 //                            .logoutSuccessHandler(logoutSuccessHandler)
 //                            .logoutSuccessUrl("/")
 //                            .permitAll())
-                    // 若無權限指定路徑
-                    .exceptionHandling()
-                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                    .and()
-                    .sessionManagement(session -> session
-                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            // 若無權限指定路徑
+//                    .exceptionHandling()
+//                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
             return http.build();
         } catch (Exception e) {
             e.printStackTrace();

@@ -35,9 +35,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public AuthenticationResponse generateToken(UserDetails userDetails, Boolean rememberMe) {
-        return generateToken(new HashMap<>(), userDetails, rememberMe);
-    }
+
 
 
     // 驗證令牌是否有效
@@ -78,6 +76,9 @@ public class JwtService {
 
     }
 
+    public AuthenticationResponse generateToken(UserDetails userDetails, Boolean rememberMe) {
+        return generateToken(new HashMap<>(), userDetails, rememberMe);
+    }
 
     // 製作JWT
     public AuthenticationResponse generateToken(

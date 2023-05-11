@@ -9,12 +9,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
 
-@RestController
+@Controller
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
@@ -57,4 +58,14 @@ public class AuthenticationController {
         return authenticationService.loginstate(request);
     }
 
+//    @GetMapping("/12")
+//    @ResponseBody
+//    public String wellcome() {
+//        return "wellcome";
+//    }
+//
+//    @GetMapping("/home")
+//    public String index() {
+//        return "index";
+//    }
 }

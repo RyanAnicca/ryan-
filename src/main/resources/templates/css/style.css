@@ -372,7 +372,7 @@ ul.email li a i span {
 /** banner section **/
 
 .full_bg {
-     background: url(../images/banner2.png);
+     background: url(banner2.png);
      background-size: cover;
      background-position: center;
      background-repeat: no-repeat;

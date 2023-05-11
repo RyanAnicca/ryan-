@@ -68,34 +68,42 @@ public class AuthenticationService {
                     new UsernamePasswordAuthenticationToken(
                             arequest.getEmail(),
                             arequest.getPassword()));
-            Users usersProfiles = userDao.findByEmail(arequest.getEmail());
+            Users users = userDao.findByEmail(arequest.getEmail());
             // 權限是否正常
-            if (!(usersProfiles.getAccountnonexpired() && usersProfiles.getAccountnonlocked() && usersProfiles.isEnabled()
-                    && usersProfiles.isCredentialsNonExpired())) {
+            if (!(users.getAccountnonexpired() && users.getAccountnonlocked() && users.isEnabled()
+                    && users.isCredentialsNonExpired())) {
                 jwtService.removeToken(httpRequest.getSession());
-                response.sendRedirect("/morari/login?error=user_not_authorized");
+                response.sendRedirect("/userdemo/login?error=user_not_authorized");
             }
-            AuthenticationResponse authenticationResponse = jwtService.generateToken(usersProfiles,
+            AuthenticationResponse authenticationResponse = jwtService.generateToken(users,
                     arequest.getRememberMe());
             jwtService.refreshTokenToSession(httpRequest, authenticationResponse);
+
             return true;
+
         } catch (LockedException e) {
-            // e.printStackTrace();
+            e.printStackTrace();
+
             return null;
         } catch (AccountExpiredException e) {
-            // e.printStackTrace();
+            e.printStackTrace();
+
             return null;
         } catch (DisabledException e) {
-            // e.printStackTrace();
+
+            e.printStackTrace();
             return null;
         } catch (CredentialsExpiredException e) {
-            // e.printStackTrace();
+
+            e.printStackTrace();
             return null;
         } catch (Exception e) {
-            // e.printStackTrace();
+            e.printStackTrace();
+
             return false;
         }
     }
+
 
     // 登入狀態
     public Boolean loginstate(HttpServletRequest request) {

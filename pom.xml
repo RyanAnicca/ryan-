@@ -95,6 +95,11 @@
             <version>1.18.26</version>
         </dependency>
 
+        <!-- thymeleaf 網頁模板 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
