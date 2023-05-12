@@ -7,11 +7,17 @@ server:
     encoding:
       charset: UTF-8
 spring:
+  main:
+    allow-bean-definition-overriding: true
   thymeleaf:
+    cache: false
     prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML5
   web:
     resources:
-      static-locations: classpath:/static/
+      static-locations: classpath:/**
   datasource:
     # -------------MSSQL-------------
 #    url: jdbc:sqlserver://localhost:1433;databaseName=userDemo;TrustServerCertificate=True;encrypt=true;

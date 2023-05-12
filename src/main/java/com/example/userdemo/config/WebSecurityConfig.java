@@ -40,7 +40,7 @@ public class WebSecurityConfig {
                             .frameOptions().sameOrigin())
                     // 設定是否需要驗證的路徑(更改成使用註釋)
                     .authorizeHttpRequests(a -> a
-                            .requestMatchers("/api/v1/auth/**","/home", "/test/**").permitAll()
+                            .requestMatchers("/api/v1/auth/**","/home", "/test/**","/").permitAll()
                     )
                     //無權限 跳轉
 //                    .exceptionHandling()
