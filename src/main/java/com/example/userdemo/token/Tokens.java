@@ -30,7 +30,7 @@ public class Tokens {
     public boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id")
     public Users users;
 }
 //    CREATE TABLE tokens (
