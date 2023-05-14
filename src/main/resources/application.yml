@@ -15,17 +15,16 @@ spring:
     suffix: .html
     encoding: UTF-8
     mode: HTML5
-  web:
     resources:
-      static-locations: classpath:/**
+      static-locations: classpath:/static/
   datasource:
     # -------------MSSQL-------------
-#    url: jdbc:sqlserver://localhost:1433;databaseName=userDemo;TrustServerCertificate=True;encrypt=true;
-#    password: "0000"
-#    username: sa
-#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433;databaseName=userDemo;TrustServerCertificate=True;encrypt=true;
+    password: "0000"
+    username: sa
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     # -------------PGSQL-------------
-    url: jdbc:postgresql://localhost:5432/userDemo
-    password: Password
-    username: demo
-    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/userDemo
+#    password: Password
+#    username: demo
+#    driver-class-name: org.postgresql.Driver

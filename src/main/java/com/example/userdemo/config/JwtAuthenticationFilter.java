@@ -47,10 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 //        if (securedPaths.contains(path)) {
 
-            if (request.getRequestURI().startsWith(request.getContextPath() + "/static")) {
-                filterChain.doFilter(request, response);
-                return;
-            }
+
             final String authHeader = request.getHeader("Authorization");
             final String jwt;
             final String userEmail;

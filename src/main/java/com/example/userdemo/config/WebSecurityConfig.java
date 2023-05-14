@@ -39,8 +39,9 @@ public class WebSecurityConfig {
                     .headers(h -> h
                             .frameOptions().sameOrigin())
                     // 設定是否需要驗證的路徑(更改成使用註釋)
+
                     .authorizeHttpRequests(a -> a
-                            .requestMatchers("/api/v1/auth/**","/home", "/test/**","/").permitAll()
+                            .requestMatchers("/api/v1/auth/**","/home", "/test/**","/","/js/**", "/css/**", "/images/**").permitAll()
                     )
                     //無權限 跳轉
 //                    .exceptionHandling()
