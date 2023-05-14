@@ -24,6 +24,13 @@ public class JwtService {
 
     private static final String SECRET_KEY = "78214125442A462D4A614E645267556B58703273357638792F423F4528482B4B6250655368566D597133743677397A24432646294A404E635166546A576E5A7234753778214125442A472D4B6150645367556B58703273357638792F423F4528482B4D6251655468576D597133743677397A24432646294A404E635266556A586E327234753778214125442A472D4B6150645367566B59703373367638792F423F4528482B4D6251655468576D5A7134743777217A24432646294A404E635266556A586E3272357538782F413F442A472D4B6150645367566B59703373367639792442264529482B4D6251655468576D5A7134743777217A25432A462D4A614E635266556A586E3272357538782F413F4428472B4B6250655367566B5970337336763979244226452948404D635166546A576D5A7134743777217A25432A462D4A614E645267556B58703272357538782F413F4428472B4B6250655368566D5971337436763979244226452948404D635166546A576E5A7234753778217A25432A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368566D597133743677397A24432646294A404D635166546A576E5A7234753778214125442A472D4B6150645267556B58703273357638792F423F4528482B4D6251655468566D597133743677397A24432646294A404E635266556A586E5A723475";
 
+    @Value("${application.security.jwt.secret-key}")
+    private String secretKey;
+    @Value("${application.security.jwt.expiration}")
+    private long jwtExpiration;
+    @Value("${application.security.jwt.refresh-token.expiration}")
+    private long refreshExpiration;
+
     // 拿取使用者帳號
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -35,8 +42,39 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
+    public String generateToken(UserDetails userDetails) {
+        return generateToken(new HashMap<>(), userDetails);
+    }
 
+    public String generateToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails
+    ) {
+        return buildToken(extraClaims, userDetails, jwtExpiration);
+    }
 
+    // 刷新新增令牌至Session
+    public String generateRefreshToken(
+            UserDetails userDetails
+    ) {
+        return buildToken(new HashMap<>(), userDetails, refreshExpiration);
+    }
+
+    // 製作JWT
+    private String buildToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails,
+            long expiration
+    ) {
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
 
     // 驗證令牌是否有效
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -67,48 +105,6 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // 刷新新增令牌至Session
-    public void refreshTokenToSession(HttpServletRequest request, AuthenticationResponse authenticationResponse) {
-        HttpSession session = request.getSession();
-        session.setAttribute(MyConstants.JWT_ACCESS_TOKEN_NAME, authenticationResponse.getAccessToken());
-        session.setAttribute(MyConstants.JWT_REFRESH_TOKEN_NAME, authenticationResponse.getRefreshToken());
-        session.setMaxInactiveInterval(MyConstants.ACCESS_TOKEN_VALIDATION_SECOND.intValue()); // 設定 Session 過期時間
-
-    }
-
-    public AuthenticationResponse generateToken(UserDetails userDetails, Boolean rememberMe) {
-        return generateToken(new HashMap<>(), userDetails, rememberMe);
-    }
-
-    // 製作JWT
-    public AuthenticationResponse generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails,
-            Boolean rememberMe) {
-        // 放自定義物件
-        Users users = (Users) userDetails;
-        extraClaims.put("id", users.getId());
-        extraClaims.put("remember", rememberMe);
-        extraClaims.put("lastLoginTime", String.valueOf(System.currentTimeMillis()));
-        // 製作refreshToken
-        String refreshToken = Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + (rememberMe ? MyConstants.REMEMBER_REFRESH_TOKEN_VALIDATION_SECOND
-                        : MyConstants.REFRESH_TOKEN_VALIDATION_SECOND)))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .compact();
-        // 製作accessToken
-        String accessToken = Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + (MyConstants.ACCESS_TOKEN_VALIDATION_SECOND)))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .compact();
-        return new AuthenticationResponse(accessToken, refreshToken, "bearer");
-    }
 
     // 設置Httpsession
     public void setSession(HttpServletRequest request, String key, String value) {

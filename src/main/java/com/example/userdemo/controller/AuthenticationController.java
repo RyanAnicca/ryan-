@@ -2,6 +2,7 @@ package com.example.userdemo.controller;
 
 
 import com.example.userdemo.model.dto.AuthenticationRequest;
+import com.example.userdemo.model.dto.AuthenticationResponse;
 import com.example.userdemo.model.dto.RegisterRequest;
 import com.example.userdemo.model.service.impl.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,32 +24,17 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(
-            @RequestBody RegisterRequest request, HttpServletResponse response) throws IOException {
-
-        if (authenticationService.register(request)) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } else {
-            // 回傳409表示衝突
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-
+    public ResponseEntity<AuthenticationResponse> register(
+            @RequestBody RegisterRequest request
+    ) {
+        return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<Void> authenticate(
-            @RequestBody AuthenticationRequest arequest, HttpServletResponse response, HttpServletRequest httpRequest) throws IOException {
-
-        if (authenticationService.authenticate(arequest, response, httpRequest) == null) {
-            // 被封鎖403
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        } else if (authenticationService.authenticate(arequest, response, httpRequest)) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } else {
-            // 帳密錯誤401
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest request
+    ) {
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
     @GetMapping("/state")
@@ -58,14 +44,11 @@ public class AuthenticationController {
         return authenticationService.loginstate(request);
     }
 
-//    @GetMapping("/12")
-//    @ResponseBody
-//    public String wellcome() {
-//        return "wellcome";
-//    }
-//
-//    @GetMapping("/home")
-//    public String index() {
-//        return "index";
-//    }
+    @PostMapping("/logoutusers")
+    public void logoutusers(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+        authenticationService.refreshToken(request, response);
+    }
 }

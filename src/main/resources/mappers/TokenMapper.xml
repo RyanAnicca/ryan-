@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.userdemo.model.repository.TokenRepository">
+
+    <resultMap id="tokens" type="com.example.userdemo.model.token.Tokens">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="tokens" property="tokens" jdbcType="VARCHAR"/>
+        <result column="tokenType" property="tokenType" javaType="com.example.userdemo.model.token.TokenType"/>
+        <result column="revoked" property="revoked" jdbcType="BOOLEAN"/>
+        <result column="expired" property="expired" jdbcType="BOOLEAN"/>
+        <association property="user" javaType="com.example.userdemo.model.user.User">
+            <id column="user_id" property="id" jdbcType="INTEGER"/>
+        </association>
+    </resultMap>
+
+    <!-- 插入 Token -->
+    <insert id="save" parameterType="com.example.userdemo.model.token.Tokens">
+        insert into tokens (tokens, token_type, revoked, expired, user_id)
+        values (#{tokens}, #{tokenType}, #{revoked}, #{expired}, #{user.id})
+    </insert>
+
+
+    <!-- 批量插入 Token -->
+    <insert id="saveAll" parameterType="java.util.List">
+        insert into tokens (tokens, token_type, revoked, expired, user_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.tokens}, #{item.tokenType}, #{item.revoked}, #{item.expired}, #{item.user.id})
+        </foreach>
+    </insert>
+
+    <!-- 更新 Token -->
+    <update id="updateToken" parameterType="com.example.userdemo.model.token.Token">
+        update tokens
+        set revoked = #{revoked},
+            expired = #{expired}
+        where id = #{id}
+    </update>
+
+    <!-- 刪除 Token -->
+    <delete id="deleteToken" parameterType="int">
+        delete
+        from tokens
+        where id = #{id}
+    </delete>
+
+    <!-- 查詢 Token -->
+    <select id="findTokenById" resultMap="tokens" parameterType="int">
+        select *
+        from tokens
+        where id = #{id}
+    </select>
+
+    <!-- 查詢所有 Token -->
+    <select id="findAllTokens" resultMap="tokens">
+        select *
+        from tokens
+    </select>
+
+    <!-- 根據使用者 ID 查詢所有有效的 Token -->
+    <select id="findAllValidTokenByUser" resultMap="tokens" parameterType="int">
+        select *
+        from tokens t
+                 inner join user u on t.user_id = u.id
+        where u.id = #{id}
+          and (t.expired = false or t.revoked = false)
+    </select>
+
+    <!-- 根據 Token 查詢 Token -->
+    <select id="findByToken" resultMap="tokens" parameterType="string">
+        select *
+        from tokens
+        where token = #{token}
+    </select>
+</mapper>

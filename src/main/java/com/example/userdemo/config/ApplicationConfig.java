@@ -48,25 +48,6 @@ public class ApplicationConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    // 登出執行
-//    @Bean
-//    public LogoutSuccessHandler logoutSuccessHandler() {
-//        return new LogoutSuccessHandler() {
-//            @Override
-//            public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
-//                                        Authentication authentication)
-//                    throws IOException, ServletException {
-//                // 處理登出邏輯，例如清除session、Cookie等
-//                Cookie jwtCookie = new Cookie(MyConstants.JWT_COOKIE_NAME, null);
-//                jwtCookie.setPath("/");
-//                jwtCookie.setHttpOnly(true);
-//                jwtCookie.setSecure(true);
-//                response.addCookie(jwtCookie);
-//
-//                // 重定向頁面
-//                response.sendRedirect("/morari");
-//            }
-//        };
-//    }
+
 
 }
