@@ -267,30 +267,30 @@
 <!-- sidebar -->
 <script src="/userdemo/js/custom.js"></script>
 <script type="text/javascript">
-    fetch("/userdemo/api/v1/auth/getusersname")
-        .then(response => response.text())
-        .then(username => {
-            console.log(username)
-            const userSection = document.getElementById("userSection");
-            const signInLink = document.getElementById("signInLink");
-
-            if (username === "null") {
-                // 未登入狀態
-                signInLink.textContent = "Sign In";
-            } else {
-                // 已登入狀態
-                signInLink.textContent = username;
-                signInLink.addEventListener("click", () => {
-                    // 登出處理
-                    fetch("/userdemo/api/v1/auth/logoutusers", { method: "POST" })
-                        .then(() => {
-                            // 登出成功後重新載入頁面
-                            window.location.reload();
-                        });
-                });
+    $(document).ready(function() {
+        // 发起 AJAX 请求获取登录状态
+        $.ajax({
+            url: "/userdemo/api/v1/auth/state",
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+                // 根据登录状态切换显示内容
+                console.log(response)
+                if (response) {
+                    // 已登录状态
+                    $("#signInLink").text("Sign Out");
+                    $("#signInLink").attr("href", "http://localhost:8443/userdemo/api/web/logoutusers");
+                } else {
+                    // 未登录状态
+                    $("#signInLink").text("Sign In");
+                    $("#signInLink").attr("href", "http://localhost:8443/userdemo/api/web/html-controller/login");
+                }
+            },
+            error: function() {
+                console.log("Failed to fetch login state.");
             }
-            userSection.classList.remove("d_none");
         });
+    });
 </script>
 </body>
 </html>

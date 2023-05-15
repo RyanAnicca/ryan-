@@ -8,6 +8,7 @@ import com.example.userdemo.model.service.JwtService;
 import com.example.userdemo.model.service.impl.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,9 +40,10 @@ public class AuthenticationController {
     //登入
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
+            @RequestBody AuthenticationRequest request, HttpServletResponse response, HttpSession session
     ) {
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+
+        return ResponseEntity.ok(authenticationService.authenticate(request,response,session));
     }
 
     //登入狀態
@@ -54,16 +56,25 @@ public class AuthenticationController {
 
     //登出
     @PostMapping("/logoutusers")
-    public void logoutusers(
+    @ResponseBody
+    public String logoutusers(
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
         authenticationService.refreshToken(request, response);
+        return "login";
     }
 
     @GetMapping("/getusersname")
     @ResponseBody
     public String getusersname() {
         return jwtService.getCurrentUsername();
+    }
+
+    @GetMapping("/getjwt")
+    @ResponseBody
+    public String getJwtFromSession(HttpSession session) {
+        String jwt = (String) session.getAttribute("jwt");
+        return jwt != null ? jwt : "";
     }
 }

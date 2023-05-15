@@ -30,15 +30,33 @@
         where email = #{email};
     </select>
     <select id="findById" resultMap="users">
-        select *
+        select
         from users
         where id = #{id};
     </select>
-    <!--    <select id="getAllCustomer" resultMap="BaseResultMap"-->
-    <!--            resultType="com.jj.learning.springboot.chapter16.domain.Customer">-->
-    <!--        select *-->
-    <!--        from customer;-->
-    <!--    </select>-->
+
+        <update id="accountnonlocked" parameterType="com.example.userdemo.model.repository.UserDao">
+            update users
+            set accountnonlocked=#{accountnonlocked},
+                updatadata=#{updatadata}
+            where id = #{id};
+        </update>
+
+    <select id="findByUsersName" resultMap="users">
+        select id, useremail, username , userphone ,registerdata,updatadata,accountlocked
+        from users
+        where username like concat('%',#{name},'%')
+    </select>
+    <update id="updateUsers" parameterType="com.example.userdemo.model.repository.UserDao">
+        UPDATE users
+        SET email=#{email},
+            password=#{password},
+            username=#{username},
+            userphone=#{userphone},
+            updatadata=#{newupdatadata},
+        WHERE id = #{id}
+          AND updatadata = #{updatadata}
+    </update>
 
     <!--    <select id="getCustomerByName" resultMap="BaseResultMap">-->
     <!--        select *-->

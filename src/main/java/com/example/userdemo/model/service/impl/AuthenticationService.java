@@ -90,7 +90,7 @@ public class AuthenticationService {
             var refreshToken = jwtService.generateRefreshToken(users);
             revokeAllUserTokens(users);
             saveUserToken(users, jwtToken);
-
+            session.setAttribute("jwt", jwtToken);
             return AuthenticationResponse.builder()
                     .accessToken(jwtToken)
                     .refreshToken(refreshToken)
