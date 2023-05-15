@@ -19,7 +19,7 @@
 
     <insert id="save" parameterType="com.example.userdemo.model.repository.UserDao">
         insert into users (email, password, username, userphone, registerdata, updatadata, role,
-                            accountnonexpired, accountnonlocked, iscredentialsnonexpired, isenabled)
+                           accountnonexpired, accountnonlocked, iscredentialsnonexpired, isenabled)
         values (#{email}, #{password}, #{username}, #{userphone}, #{registerdata}, #{updatadata}, #{role},
                 #{accountnonexpired}, #{accountnonlocked}, #{iscredentialsnonexpired}, #{isenabled});
     </insert>

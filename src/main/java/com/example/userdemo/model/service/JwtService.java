@@ -11,6 +11,9 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -112,6 +115,11 @@ public class JwtService {
         session.setAttribute(key, value);
     }
 
+    // 清除session
+    public void removeToken(HttpSession session) {
+        session.invalidate();
+    }
+
     // session拿取JWT
     public String getToken(HttpSession session, String jwtName) {
         return Optional.ofNullable(session)
@@ -120,10 +128,14 @@ public class JwtService {
                 .orElse(null);
     }
 
-    // 清空雙JWT
-    public void removeToken(HttpSession session) {
-        session.removeAttribute(MyConstants.JWT_ACCESS_TOKEN_NAME);
-        session.removeAttribute(MyConstants.JWT_REFRESH_TOKEN_NAME);
+    // 獲取當前登入的使用者名稱
+    public String getCurrentUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            String username = authentication.getName();
+            return username;
+        }
+        return "User not logged in";
     }
 
 

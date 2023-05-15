@@ -4,6 +4,7 @@ import java.util.Date;
 
 public interface UserDetailVo {
 
+    int getid();
     String getuseremail();
 
     String getusername();

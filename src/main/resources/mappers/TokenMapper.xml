@@ -5,24 +5,24 @@
     <resultMap id="tokens" type="com.example.userdemo.token.Tokens">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="tokens" property="tokens" jdbcType="VARCHAR"/>
-        <result column="tokenType" property="tokenType" javaType="com.example.userdemo.model.token.TokenType"/>
+        <result column="tokenType" property="tokenType" jdbcType="VARCHAR"/>
         <result column="revoked" property="revoked" jdbcType="BOOLEAN"/>
         <result column="expired" property="expired" jdbcType="BOOLEAN"/>
         <association property="users" javaType="com.example.userdemo.model.entity.Users">
-            <id column="id" property="id" jdbcType="INTEGER"/>
+            <id column="user_id" property="id" jdbcType="INTEGER"/>
         </association>
     </resultMap>
 
     <!-- 插入 Token -->
-    <insert id="save" parameterType="com.example.userdemo.token.Tokens">
-        insert into tokens (tokens, token_type, revoked, expired, user_id)
+    <insert id="save" parameterType="com.example.userdemo.token.Tokens" useGeneratedKeys="true" keyProperty="id">
+        insert into tokens (tokens, tokentype, revoked, expired, user_id)
         values (#{tokens}, #{tokenType}, #{revoked}, #{expired}, #{user.id})
     </insert>
 
 
     <!-- 批量插入 Token -->
     <insert id="saveAll" parameterType="java.util.List">
-        insert into tokens (tokens, token_type, revoked, expired, user_id)
+        insert into tokens (tokens, tokentype, revoked, expired, user_id)
         values
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.tokens}, #{item.tokenType}, #{item.revoked}, #{item.expired}, #{item.user.id})
@@ -61,7 +61,7 @@
     <select id="findAllValidTokenByUser" resultMap="tokens" parameterType="int">
         select *
         from tokens t
-                 inner join user u on t.id = u.id
+                 inner join users u on t.user_id = u.id
         where u.id = #{id}
           and (t.expired = false or t.revoked = false)
     </select>

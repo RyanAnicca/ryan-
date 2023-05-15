@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -58,6 +59,9 @@ public class AuthenticationService {
                 .accountnonlocked(true)
                 .build();
         userDao.save(users);
+        Users newuser;
+        newuser = userDao.findByEmail(users.getEmail());
+        users.setId(newuser.getId());
         var jwtToken = jwtService.generateToken(users);
         var refreshToken = jwtService.generateRefreshToken(users);
         saveUserToken(users, jwtToken);
@@ -69,22 +73,31 @@ public class AuthenticationService {
 
     // 登入
     @Transactional
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletResponse response, HttpSession session) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()));
+            Users users = userDao.findByEmail(request.getEmail());
+            if (!(users.getAccountnonexpired() && users.getAccountnonlocked() && users.isEnabled()
+                    && users.isCredentialsNonExpired())) {
+                jwtService.removeToken(session);
+                response.sendRedirect("/morari/login?error=user_not_authorized");
+            }
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()));
-        Users users = userDao.findByEmail(request.getEmail());
-        var jwtToken = jwtService.generateToken(users);
-        var refreshToken = jwtService.generateRefreshToken(users);
-        revokeAllUserTokens(users);
-        saveUserToken(users, jwtToken);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
+            var jwtToken = jwtService.generateToken(users);
+            var refreshToken = jwtService.generateRefreshToken(users);
+            revokeAllUserTokens(users);
+            saveUserToken(users, jwtToken);
 
+            return AuthenticationResponse.builder()
+                    .accessToken(jwtToken)
+                    .refreshToken(refreshToken)
+                    .build();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -116,7 +129,7 @@ public class AuthenticationService {
         var tokens = Tokens.builder()
                 .users(users)
                 .tokens(jwtToken)
-                .tokenType(TokenType.BEARER)
+                .tokenType("BEARER")
                 .expired(false)
                 .revoked(false)
                 .build();
@@ -124,14 +137,14 @@ public class AuthenticationService {
     }
 
     private void revokeAllUserTokens(Users users) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(users.getId());
+        List<Tokens> validUserTokens = tokenRepository.findAllValidTokenByUser(users.getId());
         if (validUserTokens.isEmpty())
             return;
-        validUserTokens.forEach(tokens -> {
+        for (Tokens tokens : validUserTokens) {
             tokens.setExpired(true);
             tokens.setRevoked(true);
-        });
-        tokenRepository.saveAll(validUserTokens);
+            tokenRepository.updateToken(tokens);
+        }
     }
 
     public void refreshToken(

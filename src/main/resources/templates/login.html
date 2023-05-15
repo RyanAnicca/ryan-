@@ -68,8 +68,8 @@
             border-bottom: 2px solid transparent;
         }
 
-        .login-snip .sign-in:checked+.tab,
-        .login-snip .sign-up:checked+.tab {
+        .login-snip .sign-in:checked + .tab,
+        .login-snip .sign-up:checked + .tab {
             color: #fff;
             border-color: #1161ee;
         }
@@ -147,27 +147,27 @@
             transform: scale(0) rotate(0);
         }
 
-        .login-space .group .check:checked+label {
+        .login-space .group .check:checked + label {
             color: #fff;
         }
 
-        .login-space .group .check:checked+label .icon {
+        .login-space .group .check:checked + label .icon {
             background: #1161ee;
         }
 
-        .login-space .group .check:checked+label .icon:before {
+        .login-space .group .check:checked + label .icon:before {
             transform: scale(1) rotate(45deg);
         }
 
-        .login-space .group .check:checked+label .icon:after {
+        .login-space .group .check:checked + label .icon:after {
             transform: scale(1) rotate(-45deg);
         }
 
-        .login-snip .sign-in:checked+.tab+.sign-up+.tab+.login-space .login {
+        .login-snip .sign-in:checked + .tab + .sign-up + .tab + .login-space .login {
             transform: rotate(0);
         }
 
-        .login-snip .sign-up:checked+.tab+.login-space .sign-up-form {
+        .login-snip .sign-up:checked + .tab + .login-space .sign-up-form {
             transform: rotate(0);
         }
 
@@ -213,68 +213,78 @@
             color: #b3b3b3;
         }
     </style>
+    <script src="/userdemo/js/jquery.min.js"></script>
+<!--    <script src="/userdemo/js/login.js"></script>-->
+    <script src="/userdemo/js/register.js"></script>
 
 </head>
 
 <body>
-    <div class="row">
-        <div class="col-md-6 mx-auto p-0">
-            <div class="card">
-                <div class="login-box">
-                    <div class="login-snip">
-                        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1"
-                            class="tab">Login</label>
-                        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign
-                            Up</label>
-                        <div class="login-space">
-                            <div class="login">
-                                <div class="group">
-                                    <label for="users" class="label">Username</label>
-                                    <input id="users" type="text" class="input" placeholder="Enter your username">
-                                </div>
-                                <div class="group">
-                                    <label for="pass" class="label">Password</label>
-                                    <input id="pass" type="password" class="input" data-type="password"
-                                        placeholder="Enter your password">
-                                </div>
-                                <div class="group">
-                                    <input id="check" type="checkbox" class="check" checked>
-                                    <label for="check"><span class="icon"></span> Keep me Signed in</label>
-                                </div>
-                                <div class="group">
-                                    <input type="submit" class="button" value="Sign In">
-                                </div>
-                                <div class="hr"></div>
-                                <div class="foot">
-                                    <a href="#">Forgot Password?</a>
-                                </div>
+<div class="row">
+    <div class="col-md-6 mx-auto p-0">
+        <div class="card">
+            <div class="login-box">
+                <div class="login-snip">
+                    <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1"
+                                                                                             class="tab">Login</label>
+                    <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign
+                    Up</label>
+                    <div class="login-space">
+                        <div class="login">
+                            <div class="group">
+                                <label for="user" class="label">帳號</label>
+                                <input id="user" type="text" class="input" placeholder="請輸入帳號(信箱)">
                             </div>
-                            <div class="sign-up-form">
-                                <div class="group">
-                                    <label for="users" class="label">Username</label>
-                                    <input id="users" type="text" class="input" placeholder="Create your Username">
-                                </div>
-                                <div class="group">
-                                    <label for="pass" class="label">Password</label>
-                                    <input id="pass" type="password" class="input" data-type="password"
-                                        placeholder="Create your password">
-                                </div>
-                                <div class="group">
-                                    <label for="pass" class="label">Repeat Password</label>
-                                    <input id="pass" type="password" class="input" data-type="password"
-                                        placeholder="Repeat your password">
-                                </div>
-                                <div class="group">
-                                    <label for="pass" class="label">Email Address</label>
-                                    <input id="pass" type="text" class="input" placeholder="Enter your email address">
-                                </div>
-                                <div class="group">
-                                    <input type="submit" class="button" value="Sign Up">
-                                </div>
-                                <div class="hr"></div>
-                                <div class="foot">
-                                    <label for="tab-1">Already Member?</label>
-                                </div>
+                            <div class="group">
+                                <label for="pass" class="label">密碼</label>
+                                <input id="pass" type="password" class="input" data-type="password"
+                                       placeholder="請輸入密碼">
+                            </div>
+                            <div class="group">
+                                <input id="check" type="checkbox" class="check" checked>
+                                <label for="check"><span class="icon"></span> Keep me Signed in</label>
+                            </div>
+                            <div class="group">
+                                <input type="submit" class="button" value="登入" id="login">
+                            </div>
+                            <div class="hr"></div>
+                            <div class="foot">
+                                <a href="#">Forgot Password?</a>
+                            </div>
+                        </div>
+                        <div class="sign-up-form">
+
+                            <div class="group">
+                                <label for="pass" class="label">Email Address</label>
+                                <input id="email" type="text" class="input" placeholder="註冊帳號(信箱)">
+                            </div>
+
+                            <div class="group">
+                                <label for="pass" class="label">Password</label>
+                                <input id="password" type="password" class="input" data-type="password"
+                                       placeholder="註冊密碼">
+                            </div>
+                            <div class="group">
+                                <label for="pass" class="label">Repeat Password</label>
+                                <input id="password2" type="password" class="input" data-type="password"
+                                       placeholder="密碼二次確認">
+                            </div>
+
+                            <div class="group">
+                                <label for="user" class="label">Username</label>
+                                <input id="username" type="text" class="input" placeholder="用戶名稱">
+                            </div>
+                            <div class="group">
+                                <label for="user" class="label">Userphone</label>
+                                <input id="userphone" type="text" class="input" placeholder="用戶電話">
+                            </div>
+
+                            <div class="group">
+                                <input type="submit" class="button" value="註冊" id="register">
+                            </div>
+                            <div class="hr"></div>
+                            <div class="foot">
+                                <label for="tab-1">Already Member?</label>
                             </div>
                         </div>
                     </div>
@@ -282,6 +292,7 @@
             </div>
         </div>
     </div>
+</div>
 
 </body>
 

@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserDao {
 
 
-    void save(Users users);
+    int save(Users users);
     Users findByEmail(String email);
 
     UserDetailVo findById(int id);

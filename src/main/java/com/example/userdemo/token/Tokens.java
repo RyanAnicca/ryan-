@@ -22,23 +22,31 @@ public class Tokens {
     @Column(unique = true)
     public String tokens;
 
-    @Enumerated(EnumType.STRING)
-    public TokenType tokenType = TokenType.BEARER;
+//    @Enumerated(EnumType.STRING)
+    public String tokenType;
 
     public boolean revoked;
 
     public boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     public Users users;
+
+    public Users getUser() {
+        return users;
+    }
+
+    public void setUser(Users user) {
+        this.users = users;
+    }
 }
 //    CREATE TABLE tokens (
-//        id INT PRIMARY KEY IDENTITY(1,1),
-//    tokens NVARCHAR(255) UNIQUE,
-//    tokenType NVARCHAR(50),
-//    revoked BIT,
-//    expired BIT,
-//    user_id BIGINT,
-//    FOREIGN KEY (user_id) REFERENCES users(id)
-//        );
+//        id SERIAL PRIMARY KEY,
+//        tokens VARCHAR(255) UNIQUE,
+//    tokenType VARCHAR(255),
+//    revoked BOOLEAN,
+//    expired BOOLEAN,
+//    user_id INTEGER REFERENCES users(id)
+//);
+

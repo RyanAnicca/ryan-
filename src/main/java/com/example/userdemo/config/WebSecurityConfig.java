@@ -10,8 +10,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -20,53 +22,41 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
 
-    @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    //    @Autowired
+//    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
     private JwtAuthenticationFilter jwtAuthFilter;
-    @Autowired
+
     private final AuthenticationProvider authenticationProvider;
-//    @Autowired
-//    private LogoutSuccessHandlerImpl logoutSuccessHandler;
+
+    private final LogoutHandler logoutHandler;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
         try {
             http
                     // 關閉CSRF
-                    .csrf().disable()
+                    .csrf()
+                    .disable()
                     // Frame 同源設定
-                    .headers(h -> h
-                            .frameOptions().sameOrigin())
-                    // 設定是否需要驗證的路徑(更改成使用註釋)
-
-                    .authorizeHttpRequests(a -> a
-                            .requestMatchers("/api/v1/auth/**","/home", "/test/**","/","/js/**", "/css/**", "/images/**").permitAll()
+                    .authorizeHttpRequests()
+                    .requestMatchers(
+                            "/api/v1/auth/**", "/api/web/html-controller/**", "/test/**", "/js/**", "/css/**", "/images/**", "/icon/**", "/fonts/**"
                     )
-                    //無權限 跳轉
-//                    .exceptionHandling()
-//                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-//                    .and()
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                    .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
-                    // 啟用jwt監聽
                     .authenticationProvider(authenticationProvider)
-                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-            // 登入頁面
-//                    .formLogin(formLogin -> formLogin
-//                            .loginPage("/login")
-//                            .permitAll())
-
-            // 登出頁面
-//                    .logout(logout -> logout
-//                            .logoutUrl("/logout")
-//                            .logoutSuccessHandler(logoutSuccessHandler)
-//                            .logoutSuccessUrl("/")
-//                            .permitAll())
-            // 若無權限指定路徑
-//                    .exceptionHandling()
-//                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                    .logout()
+                    .logoutUrl("/api/v1/auth/logoutusers")
+                    .addLogoutHandler(logoutHandler)
+                    .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
             return http.build();
         } catch (Exception e) {
             e.printStackTrace();
