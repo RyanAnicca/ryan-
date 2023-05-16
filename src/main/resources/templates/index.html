@@ -428,26 +428,15 @@
     function selectAllUsers() {
         let sessionjwt = sessionStorage.getItem("jwtToken");
         let myHeaders = new Headers();
-        console.log(sessionjwt)
         console.log("加入header開始")
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + sessionjwt);
 
-        console.log(myHeaders.get("Authorization"))
-        fetch("/userdemo/api/web/html-controller/usersdemo", {
+        fetch("/userdemo/api/web/html-controller/users", {
             method: "GET",
             headers: myHeaders
-        })
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = response.url; // 执行页面跳转
-                } else {
-                    throw new Error("请求失败：" + response.status);
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        });
+        console.log("fetch完成")
     }
 </script>
 <!-- end owl carousel script -->

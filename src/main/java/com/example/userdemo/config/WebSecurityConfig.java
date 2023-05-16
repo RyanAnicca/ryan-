@@ -42,7 +42,7 @@ public class WebSecurityConfig {
                     // Frame 同源設定
                     .authorizeHttpRequests()
                     .requestMatchers(
-                            "/api/v1/auth/**", "/api/web/html-controller/home", "/api/web/html-controller/login", "/test/**", "/js/**", "/css/**", "/images/**", "/icon/**", "/fonts/**"
+                            "/api/v1/auth/**", "/api/web/html-controller/home", "/api/web/html-controller/users", "/api/web/html-controller/login", "/test/**", "/js/**", "/css/**", "/images/**", "/icon/**", "/fonts/**"
                     )
                     .permitAll()
                     .anyRequest()

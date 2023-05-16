@@ -25,27 +25,27 @@ window.onload = function () {
             username: $("#username").val(),
             userphone: $("#userphone").val()
         });
-        if (email == 0) {
+        if ($("#email").val() === "") {
             alert('帳號未填寫');
             return;
         }
-        if (password == 0) {
+        if ($("#password").val() === "") {
             alert('密碼未填寫');
             return;
         }
-        if (username == 0) {
+        if ($("#username").val() === "") {
             alert('名稱未填寫');
             return;
         }
-        if (userphone == 0) {
+        if ($("#userphone").val() === "") {
             alert('電話未填寫');
             return;
         }
-        if (password != password2) {
+        if ($("#password").val() != $("#password2").val()) {
             alert('兩次密碼不相符');
             return;
         }
-        if (confirm("確定提交訂單?")) {
+        if (confirm("確定創建帳號?")) {
             $.ajax({
                 type: 'post',
                 url: '/userdemo/api/v1/auth/register',
@@ -69,11 +69,11 @@ window.onload = function () {
             email: $("#user").val(),
             password: $("#pass").val()
         });
-        if (email == 0) {
+        if ($("#user").val() === "") {
             alert('帳號未填寫');
             return;
         }
-        if (password == 0) {
+        if ($("#pass").val() === "") {
             alert('密碼未填寫');
             return;
         }
