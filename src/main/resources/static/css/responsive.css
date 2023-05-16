@@ -102,7 +102,7 @@ File Name: responsive.css
         margin-top: -49px;
     }
     .navigation.navbar-dark .navbar-toggler-icon {
-        background: url(menu_icon.png);
+        /*background: url(menu_icon.png);*/
         background-repeat: no-repeat;
         width: 48px;
         float: right;
@@ -173,7 +173,7 @@ File Name: responsive.css
         outline: inherit;
     }
     .navigation.navbar-dark .navbar-toggler-icon {
-        background: url(menu_icon.png);
+        /*background: url(menu_icon.png);*/
         background-repeat: no-repeat;
         width: 48px;
     }

@@ -104,15 +104,12 @@ public class AuthenticationService {
 
     // 登入狀態
     public Boolean loginstate(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String sessionjwt = null;
-        Boolean islogin = false;
-        if (session != null) {
-            sessionjwt = jwtService.getToken(session, MyConstants.JWT_ACCESS_TOKEN_NAME);
-        }
-        if (sessionjwt == null || sessionjwt.isEmpty()) {
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             return false;
         }
+        String sessionjwt = authorizationHeader.replace("Bearer ", "");
+        Boolean islogin = false;
         try {
             String userEmail = jwtService.extractUsername(sessionjwt);
             if (userEmail != null) {

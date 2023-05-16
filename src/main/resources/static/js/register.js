@@ -55,6 +55,11 @@ window.onload = function () {
             data: raw1,
             success: function (data) {
                 alert(data);
+                // 解析 JSON 字符串为 JavaScript 对象
+                const parsedData = JSON.parse(data);
+                // 获取 access_token 的值
+                const accessToken = parsedData.access_token;
+                sessionStorage.setItem('jwtToken', accessToken);
                 window.location.href = "/userdemo/api/web/html-controller/home";
             }
         });

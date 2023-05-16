@@ -267,29 +267,25 @@
 <!-- sidebar -->
 <script src="/userdemo/js/custom.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        // 发起 AJAX 请求获取登录状态
-        $.ajax({
-            url: "/userdemo/api/v1/auth/state",
-            type: "GET",
-            dataType: "json",
-            success: function(response) {
-                // 根据登录状态切换显示内容
-                console.log(response)
-                if (response) {
-                    // 已登录状态
-                    $("#signInLink").text("Sign Out");
-                    $("#signInLink").attr("href", "http://localhost:8443/userdemo/api/web/logoutusers");
-                } else {
-                    // 未登录状态
-                    $("#signInLink").text("Sign In");
-                    $("#signInLink").attr("href", "http://localhost:8443/userdemo/api/web/html-controller/login");
-                }
-            },
-            error: function() {
-                console.log("Failed to fetch login state.");
-            }
-        });
+    console.log("test1")
+    $(document).ready(function () {
+        console.log("test2")
+        // 获取Session Storage中的值
+        let sessionjwt = sessionStorage.getItem("jwtToken");
+        console.log(sessionjwt)
+        // 根据Session Storage的值切换显示内容
+        if (sessionjwt === null) {
+            // 未登录状态
+            console.log("未登錄")
+            $("#signInLink").text("Sign In");
+            $("#signInLink").attr("href", "http://localhost:8443/userdemo/api/web/html-controller/login");
+        } else {
+            // 已登录状态
+            console.log("已登入")
+            console.log(sessionjwt)
+            $("#signInLink").text("Sign Out");
+            $("#signInLink").attr("href", "http://localhost:8443/userdemo/api/web/logoutusers");
+        }
     });
 </script>
 </body>

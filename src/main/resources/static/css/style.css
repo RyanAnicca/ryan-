@@ -22,7 +22,6 @@ import Files
 ---------------------------------------------------------------------*/
 
 @import url(animate.min.css);
-@import url(normalize.css);
 @import url(icomoon.css);
 @import url(font-awesome.min.css);
 @import url(owl.carousel.min.css);
@@ -372,7 +371,7 @@ ul.email li a i span {
 /** banner section **/
 
 .full_bg {
-     background: url(banner2.png);
+     background: url(../images/banner2.png);
      background-size: cover;
      background-position: center;
      background-repeat: no-repeat;
