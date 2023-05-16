@@ -35,17 +35,18 @@
         where id = #{id};
     </select>
 
-        <update id="accountnonlocked" parameterType="com.example.userdemo.model.repository.UserDao">
-            update users
-            set accountnonlocked=#{accountnonlocked},
-                updatadata=#{updatadata}
-            where id = #{id};
-        </update>
+    <update id="accountnonlocked" parameterType="com.example.userdemo.model.repository.UserDao">
+        update users
+        set accountnonlocked=#{accountnonlocked},
+            updatadata=#{newupdatadata}
+        where id = #{id}
+          AND updatadata = #{updatadata};
+    </update>
 
     <select id="findByUsersName" resultMap="users">
-        select id, useremail, username , userphone ,registerdata,updatadata,accountlocked
+        select id, useremail, username, userphone, registerdata, updatadata, accountlocked
         from users
-        where username like concat('%',#{name},'%')
+        where username like concat('%', #{name}, '%')
     </select>
     <update id="updateUsers" parameterType="com.example.userdemo.model.repository.UserDao">
         UPDATE users
@@ -54,34 +55,13 @@
             username=#{username},
             userphone=#{userphone},
             updatadata=#{newupdatadata},
-        WHERE id = #{id}
-          AND updatadata = #{updatadata}
+            WHERE id = #{id}
+                AND updatadata = #{updatadata}
     </update>
 
-    <!--    <select id="getCustomerByName" resultMap="BaseResultMap">-->
-    <!--        select *-->
-    <!--        from customer-->
-    <!--        where name = #{name};-->
-    <!--    </select>-->
+    <select id="findAllUsers" resultMap="users">
+        select *
+        from users;
+    </select>
 
-
-    <!--    <update id="updateCustomerById" parameterType="com.jj.learning.springboot.chapter16.domain.Customer">-->
-    <!--        update customer-->
-    <!--        set name=#{name},-->
-    <!--            age=#{age},-->
-    <!--            modify_by=#{modifyBy},-->
-    <!--            modify_dt=now()-->
-    <!--        where id = #{id};-->
-    <!--    </update>-->
-
-    <!--    <delete id="deleteAllCustomer">-->
-    <!--        delete-->
-    <!--        from customer;-->
-    <!--    </delete>-->
-
-    <!--    <delete id="deleteCustomerById">-->
-    <!--        delete-->
-    <!--        from customer-->
-    <!--        where id = #{id};-->
-    <!--    </delete>-->
 </mapper>

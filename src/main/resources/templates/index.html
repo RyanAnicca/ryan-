@@ -1,292 +1,456 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <!-- basic -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- mobile metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <!-- site metas -->
-    <title>4uhost</title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- bootstrap css -->
-    <link rel="stylesheet" href="/userdemo/css/bootstrap.min.css">
-    <!-- style css -->
-    <link rel="stylesheet" href="/userdemo/css/style.css">
-    <!-- Responsive-->
-    <link rel="stylesheet" href="/userdemo/css/responsive.css">
-    <!-- fevicon -->
-    <link rel="icon" href="/userdemo/images/fevicon.png" type="image/gif"/>
-    <!-- Tweaks for older IEs-->
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <!-- Basic -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <!-- Site Metas -->
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>Cryptop</title>
+
+    <!-- slider stylesheet -->
+    <!-- slider stylesheet -->
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="/userdemo/css/bootstrap.css"/>
+
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+    <link href="/userdemo/css/style.css" rel="stylesheet"/>
+    <!-- responsive style -->
+    <link href="/userdemo/css/responsive.css" rel="stylesheet"/>
 </head>
-<!-- body -->
-<body class="main-layout">
-<!-- loader  -->
-<div class="loader_bg">
-    <div class="loader"><img src="/userdemo/images/loading.gif" alt="#"/></div>
-</div>
-<!-- end loader -->
-<!-- header -->
-<div class="header">
-    <div class="container">
-        <div class="row d_flex">
-            <div class=" col-md-2 col-sm-3 col logo_section">
-                <div class="full">
-                    <div class="center-desk">
-                        <div class="logo">
-                            <a href="index.html"><img src="/userdemo/images/logo.png" alt="#"/></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8 col-sm-12">
-                <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04"
-                            aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarsExample04">
-                        <ul class="navbar-nav mr-auto">
+
+<body>
+<div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+                <a class="navbar-brand" href="/userdemo/index.html">
+            <span>
+              Cryptop
+            </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+                        <ul class="navbar-nav  ">
                             <li class="nav-item active">
-                                <a class="nav-link" href="index.html">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="about.html">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="hosting.html">Hosting</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="domain.html">Domain</a>
+                                <a class="nav-link" href="http://localhost:8443/userdemo/api/web/html-controller/home">Home
+                                    <span
+                                            class="sr-only">(current)</span></a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="contact.html">Contact Us</a>
+                                <a class="nav-link" href="#" onclick="selectAllUsers()">
+                                    <span>Users</span> <img src="/userdemo/images/wallet.png" alt=""/>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://localhost:8443/userdemo/api/web/html-controller/login">
+                                    Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://localhost:8443/userdemo/api/web/logoutusers"
+                                   id="logout"> Logout
+                                    out</a>
                             </li>
                         </ul>
+                        <div class="user_option">
+                            <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
+                                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit"></button>
+                            </form>
+                        </div>
                     </div>
-                </nav>
-            </div>
-            <div class="col-md-2  d_none">
-                <ul class="email text_align_right">
-                    <li><a href="Javascript:void(0)"> <i class="fa fa-shopping-bag" aria-hidden="true">
-                        <span>0</span></i>
-                    </a>
-                    </li>
-                    <li><a href="http://localhost:8443/userdemo/api/web/html-controller/login">Sign In
-                    </a>
-                    </li>
-                </ul>
-            </div>
+                </div>
+            </nav>
         </div>
-    </div>
-</div>
-<!-- end header inner -->
-<!-- top -->
-<div class="full_bg">
-    <div class="slider_main">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- carousel code -->
-                    <div id="banner1" class="carousel slide">
-                        <ol class="carousel-indicators">
-                            <li data-target="#banner1" data-slide-to="0" class="active"></li>
-                            <li data-target="#banner1" data-slide-to="1"></li>
-                            <li data-target="#banner1" data-slide-to="2"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                            <!-- first slide -->
-                            <div class="carousel-item active">
-                                <div class="carousel-caption relative">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="dream">
-                                                <h1>
-                                                    PowerFul <br>HOSTING <br>Your dream <br>website
-                                                </h1>
-                                                <a class="read_more" href="Javascript:void(0)">Get Stared</a>
-                                                <a class="read_more" href="Javascript:void(0)">Contact Us</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="dream_img">
-                                                <figure><img src="/userdemo/images/dream_img.png" alt="#"/></figure>
+    </header>
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class=" slider_section position-relative">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="container">
+                        <div class="box">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="detail-box">
+                                        <div>
+                                            <h1>
+                                                Digital Currency
+                                            </h1>
+                                            <h2>
+                                                The Future of Trading.
+                                            </h2>
+                                            <div class="">
+                                                <a href="">
+                                                    Get Started
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- second slide -->
-                            <div class="carousel-item">
-                                <div class="carousel-caption relative">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="dream">
-                                                <h1>
-                                                    PowerFul <br>HOSTING <br>Your dream <br>website
-                                                </h1>
-                                                <a class="read_more" href="Javascript:void(0)">Get Stared</a>
-                                                <a class="read_more" href="Javascript:void(0)">Contact Us</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="dream_img">
-                                                <figure><img src="/userdemo/images/dream_img.png" alt="#"/></figure>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- third slide-->
-                            <div class="carousel-item">
-                                <div class="carousel-caption relative">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="dream">
-                                                <h1>
-                                                    PowerFul <br>HOSTING <br>Your dream <br>website
-                                                </h1>
-                                                <a class="read_more" href="Javascript:void(0)">Get Stared</a>
-                                                <a class="read_more" href="Javascript:void(0)">Contact Us</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="dream_img">
-                                                <figure><img src="/userdemo/images/dream_img.png" alt="#"/></figure>
-                                            </div>
-                                        </div>
+                                <div class="col-md-5">
+                                    <div class="img-box">
+                                        <img src="/userdemo/images/slider-img.png" alt=""/>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- controls -->
-                        <a class="carousel-control-prev" href="#banner1" role="button" data-slide="prev">
-                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#banner1" role="button" data-slide="next">
-                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                            <span class="sr-only">Next</span>
-                        </a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="container">
+                        <div class="box">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="detail-box">
+                                        <div>
+                                            <h1>
+                                                Digital Currency
+                                            </h1>
+                                            <h2>
+                                                The Future of Trading.
+                                            </h2>
+                                            <div class="">
+                                                <a href="">
+                                                    Get Started
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="img-box">
+                                        <img src="/userdemo/images/slider-img.png" alt=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="container">
+                        <div class="box">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="detail-box">
+                                        <div>
+                                            <h1>
+                                                Digital Currency
+                                            </h1>
+                                            <h2>
+                                                The Future of Trading.
+                                            </h2>
+                                            <div class="">
+                                                <a href="">
+                                                    Get Started
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="img-box">
+                                        <img src="/userdemo/images/slider-img.png" alt=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="container">
+                        <div class="box">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="detail-box">
+                                        <div>
+                                            <h1>
+                                                Digital Currency
+                                            </h1>
+                                            <h2>
+                                                The Future of Trading.
+                                            </h2>
+                                            <div class="">
+                                                <a href="">
+                                                    Get Started
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="img-box">
+                                        <img src="/userdemo/images/slider-img.png" alt=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="container">
+                        <div class="box">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="detail-box">
+                                        <div>
+                                            <h1>
+                                                Digital Currency
+                                            </h1>
+                                            <h2>
+                                                The Future of Trading.
+                                            </h2>
+                                            <div class="">
+                                                <a href="">
+                                                    Get Started
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="img-box">
+                                        <img src="/userdemo/images/slider-img.png" alt=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+    <!-- end slider section -->
 </div>
-<!-- end banner -->
-<!-- domain -->
 
-<!-- end domain -->
-<!-- guarantee -->
-<!-- end guarantee -->
-<!-- order -->
-<!-- end order -->
-<!-- about -->
-<!-- end about -->
-<!-- contact -->
-<!-- contact -->
-<!--  footer -->
-<footer>
-    <div class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="infoma text_align_left">
-                        <h3>Choose.</h3>
-                        <ul class="commodo">
-                            <li>Commodo</li>
-                            <li>consequat. Duis a</li>
-                            <li>ute irure dolor</li>
-                            <li>in reprehenderit</li>
-                            <li>in voluptate</li>
-                        </ul>
+
+<!-- info section -->
+<section class="info_section layout_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="info_contact">
+                    <div class="info_logo">
+                        <a href="index.html">
+                <span>
+                  Cryptop
+                </span>
+                        </a>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="infoma">
-                        <h3>Get Support.</h3>
-                        <ul class="conta">
-                            <li><i class="fa fa-map-marker" aria-hidden="true"></i>Address : Loram Ipusm
-                            </li>
-                            <li><i class="fa fa-phone" aria-hidden="true"></i>Call : +01 1234567890</li>
-                            <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="Javascript:void(0)"> Email :
-                                demo@gmail.com</a></li>
-                        </ul>
+                    <h5>
+                        Contact Us
+                    </h5>
+                    <div>
+                        <div class="img-box">
+                            <img src="/userdemo/images/location.png" width="18px" alt=""/>
+                        </div>
+                        <p>
+                            Page when looking at its layou
+                        </p>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="infoma">
-                        <h3>Company.</h3>
-                        <ul class="menu_footer">
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="about.html">About </a></li>
-                            <li><a href="domain.html">Domain</a></li>
-                            <li><a href="hosting.html">Hosting</a></li>
-                            <li><a href="contact.html">Contact</a></li>
-                        </ul>
+                    <div>
+                        <div class="img-box">
+                            <img src="/userdemo/images/phone.png" width="18px" alt=""/>
+                        </div>
+                        <p>
+                            +01 1234567890
+                        </p>
                     </div>
-                </div>
-                <div class="col-lg-2 col-md-6 col-sm-6">
-                    <div class="infoma text_align_left">
-                        <h3>Services.</h3>
-                        <ul class="commodo">
-                            <li>Commodo</li>
-                            <li>consequat. Duis a</li>
-                            <li>ute irure dolor</li>
-                            <li>in reprehenderit</li>
-                            <li>in voluptate</li>
-                        </ul>
+                    <div>
+                        <div class="img-box">
+                            <img src="/userdemo/images/envelope.png" width="18px" alt=""/>
+                        </div>
+                        <p>
+                            demo@gmail.com
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="copyright">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <p>© 2020 All Rights Reserved. <a href="https://html.design/"> Free html Templates</a></p>
-                    </div>
+            <div class="col-md-3">
+                <div class="info_info">
+                    <h5>
+                        Invest Money
+                    </h5>
+                    <p>
+                        There are many variations of passages of Lorem Ipsum available, but the majority have suffered
+                        alteration
+                        in some form, by injected humour,
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="info_links">
+                    <h5>
+                        Useful Links
+                    </h5>
+                    <ul>
+                        <li>
+                            <a href="">
+                                There are many
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                variations of
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                passages of
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                Lorem Ipsum
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                available, but the
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                majority have
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                suffered
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="info_form ">
+                    <h5>
+                        Newsletter
+                    </h5>
+                    <form action="">
+                        <input type="email" placeholder="Enter your email"/>
+                        <button>
+                            Subscribe
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</footer>
-<!-- end footer -->
-<!-- Javascript files-->
-<script src="/userdemo/js/jquery.min.js"></script>
-<script src="/userdemo/js/bootstrap.bundle.min.js"></script>
-<!-- sidebar -->
-<script src="/userdemo/js/custom.js"></script>
+</section>
+
+<!-- end info_section -->
+
+<!-- footer section -->
+<section class="container-fluid footer_section">
+    <p>
+        &copy; 2019 All Rights Reserved By
+        <a href="https://html.design/">Free Html Templates</a>
+    </p>
+</section>
+<!-- footer section -->
+
+<script type="text/javascript" src="/userdemo/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/userdemo/js/bootstrap.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+</script>
+<!-- owl carousel script
+  -->
 <script type="text/javascript">
-    console.log("test1")
-    $(document).ready(function () {
-        console.log("test2")
-        // 获取Session Storage中的值
-        let sessionjwt = sessionStorage.getItem("jwtToken");
-        console.log(sessionjwt)
-        // 根据Session Storage的值切换显示内容
-        if (sessionjwt === null) {
-            // 未登录状态
-            console.log("未登錄")
-            $("#signInLink").text("Sign In");
-            $("#signInLink").attr("href", "http://localhost:8443/userdemo/api/web/html-controller/login");
-        } else {
-            // 已登录状态
-            console.log("已登入")
-            console.log(sessionjwt)
-            $("#signInLink").text("Sign Out");
-            $("#signInLink").attr("href", "http://localhost:8443/userdemo/api/web/logoutusers");
+    $(".owl-carousel").owlCarousel({
+        loop: true,
+        margin: 0,
+        navText: [],
+        center: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        responsive: {
+            0: {
+                items: 1
+            },
+            1000: {
+                items: 3
+            }
         }
     });
 </script>
+<script type="text/javascript">
+    // 获取 sessionjwt 的值
+    let sessionjwt = sessionStorage.getItem("jwtToken");
+
+    // 判断 sessionjwt 的值是否为 null
+    if (sessionjwt === null) {
+        // 删除 Logout 导航链接
+        document.querySelector('.nav-item > a[href="http://localhost:8443/userdemo/api/web/logoutusers"]').parentNode.remove();
+    } else {
+        // 删除 Login 导航链接
+        document.querySelector('.nav-item > a[href="http://localhost:8443/userdemo/api/web/html-controller/login"]').parentNode.remove();
+    }
+    // 监听点击 Logout 链接的事件
+    document.getElementById('logout').addEventListener('click', function (event) {
+        event.preventDefault(); // 阻止默认的超链接跳转行为
+
+        // 移除 sessionjwt
+        sessionStorage.removeItem("jwtToken");
+
+        // 刷新页面
+        location.reload();
+    });
+
+    // 添加 Authorization 头部并发送请求
+    function selectAllUsers() {
+        let sessionjwt = sessionStorage.getItem("jwtToken");
+        let myHeaders = new Headers();
+        console.log(sessionjwt)
+        console.log("加入header開始")
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + sessionjwt);
+
+        console.log(myHeaders.get("Authorization"))
+        fetch("/userdemo/api/web/html-controller/usersdemo", {
+            method: "GET",
+            headers: myHeaders
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = response.url; // 执行页面跳转
+                } else {
+                    throw new Error("请求失败：" + response.status);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+</script>
+<!-- end owl carousel script -->
 </body>
+
 </html>

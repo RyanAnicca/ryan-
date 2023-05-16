@@ -78,6 +78,6 @@
     <select id="findByToken" resultMap="tokens" parameterType="string">
         select *
         from tokens
-        where token = #{token}
+        where tokens = #{tokens}
     </select>
 </mapper>

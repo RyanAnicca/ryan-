@@ -15,12 +15,15 @@ public interface UserDao {
     int save(Users users);
     Users findByEmail(String email);
 
+    //模糊查詢
     List<UserDetailVo> findByUsersName(String name);
 
-    UserDetailVo findById(int id);
+    Users findById(int id);
 
     void accountnonlocked(Users users);
 
     int updateUsers(Users user);
+
+    List<Users> findAllUsers();
 
 }

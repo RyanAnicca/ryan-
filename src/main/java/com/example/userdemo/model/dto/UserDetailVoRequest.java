@@ -13,6 +13,7 @@ public class UserDetailVoRequest {
     private String userphone;
     private Date registerdata;
     private Date updatadata;
+    private Boolean accountlocked;
 
 
 }

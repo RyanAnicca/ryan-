@@ -1,183 +1,131 @@
-/*--------------------------------------------------------------------- 
-File Name: responsive.css 
----------------------------------------------------------------------*/
+@media (max-width: 1120px) {}
 
-@media (min-width: 1200px) and (max-width: 1500px) {
-    .full_bg {
-        padding-top: 100px;
-        height: 100%;
-        background-size: 100% 100%;
-        background: #2e3192;
+@media (max-width: 992px) {
+
+    .custom_nav-container .nav_search-btn {
+        background-position: center;
+        margin-top: 10px;
+    }
+
+    .slider_section .box {
+        margin: 75px 0 125px 0;
+    }
+
+    .client_section .box {
+        width: 90%;
     }
 }
 
-@media (min-width: 992px) and (max-width: 1199px) {
-    .full_bg {
-        padding-top: 100px;
-        height: 100%;
-        background-size: 100% 100%;
-        background: #2e3192;
+@media (max-width: 768px) {
+    .slider_section .detail-box {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .info_section .col-md-3 {
+        text-align: center;
+    }
+
+    .info_section .col-md-3:not(:nth-last-child(1)) {
+        margin-bottom: 35px;
+    }
+
+    .info_section .col-md-3>div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    section.app_section {
+        padding: 65px 0;
+    }
+
+    section.app_section .img-box {
+        transform: none;
+        margin-top: 35px;
+    }
+
+    section.app_section .detail-box {
+        text-align: center;
+    }
+
+    .client_section .box {
+        width: 100%;
+    }
+
+    .info_section .info_contact .info_logo {
+        margin-bottom: 45px;
+    }
+
+    .info_section .info_form form input {
+        text-align: center;
     }
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
-    .full_bg {
-        padding-top: 100px;
+
+@media (max-width: 576px) {
+    .slider_section .detail-box h1 {
+        font-size: 3.5rem;
+    }
+
+    .slider_section .detail-box h2 {
+        font-size: 2.2rem;
+    }
+
+    section.app_section .detail-box .download_box {
+        flex-direction: column;
+    }
+
+    section.app_section .detail-box .download_box .btn-box {
+        margin-top: 15px;
+    }
+
+    .client_section .box {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .client_section .box .client_id {
+        margin: 0;
+        margin-bottom: 15px;
+    }
+
+    .client_section .box .client_id {
+        padding: 15px;
+    }
+
+    .client_section .box .client_id::before {
+        clip-path: none;
+    }
+
+    .client_section .box .client_id::after {
+        top: 3%;
+        left: 0%;
+        width: 100%;
         height: 100%;
-        background-size: 100% 100%;
-        background: #2e3192;
-    }
-    .navigation.navbar-dark .navbar-nav .nav-link {
-        padding: 0px 13px;
-    }
-    ul.email li {
-        padding-right: 13px;
-    }
-    #banner1 .carousel-control-next {
-        left: 10%;
-    }
-    .titlepage h2 {
-        font-size: 32px;
-    }
-    .domain-price strong {
-        font-size: 14px;
-    }
-    .order-box p {
-        font-size: 15px;
-    }
-    .order-box p span {
-        font-size: 24px;
-        padding: 0 9px;
-        line-height: 30px;
+        background-color: rgba(0, 0, 0, 0.1);
+        filter: blur(10px);
+
     }
 }
 
-@media (min-width: 576px) and (max-width: 767px) {
-    .full_bg {
-        padding-top: 100px;
-        height: 100%;
-        background-size: 100% 100%;
-        background: #2e3192;
+@media (max-width: 480px) {}
+
+@media (max-width: 420px) {
+    .slider_section .detail-box h1 {
+        font-size: 2.5rem;
     }
-    #banner1 .carousel-control-next {
-        left: 13%;
-    }
-    .dream_img {
-        padding-top: 30px;
-    }
-    .titlepage h2 {
-        font-size: 36px;
-    }
-    .domain-price span {
-        font-size: 12px;
-    }
-    .domain-price strong {
-        font-size: 12px;
-    }
-    .navigation.navbar {
-        float: right;
-        display: inherit !important;
-        padding: 0;
-        width: 100%;
-    }
-    .navigation .navbar-collapse {
-        background: #2e3192;
-        padding: 20px;
-        margin-top: 24px;
-        position: absolute;
-        width: 100%;
-        z-index: 999;
-        box-shadow: 0 0 59px rgba(30, 30, 29, 0.25);
-    }
-    .navigation.navbar-dark .navbar-nav .nav-link {
-        padding: 10px 0;
-        color: #fff;
-    }
-    .navigation.navbar-dark .navbar-toggler {
-        border: inherit;
-        float: right;
-        padding: 0;
-        width: 100%;
-        outline: inherit;
-        margin-top: -49px;
-    }
-    .navigation.navbar-dark .navbar-toggler-icon {
-        /*background: url(menu_icon.png);*/
-        background-repeat: no-repeat;
-        width: 48px;
-        float: right;
-    }
-    .d_none {
-        display: none;
+
+    .slider_section .detail-box h2 {
+        font-size: 1.8rem;
     }
 }
 
-@media (max-width: 575px) {
-    .full_bg {
-        padding-top: 100px;
-        height: 100%;
-        background-size: 100% 100%;
-        background: #2e3192;
-    }
-    .dream h1 {
-        font-size: 44px;
-        line-height: 55px;
-    }
-    .dream .read_more {
-        margin-bottom: 10px;
-    }
-    .slider_main {
-        padding-top: 20%;
-    }
-    .dream_img {
-        padding-top: 20px;
-    }
-    .logo {
-        float: left;
-    }
-    #banner1 .carousel-control-next {
-        left: 24%;
-    }
-    .titlepage h2 {
-        line-height: 35px;
-        font-size: 32px;
-    }
-    .domain-price {
-        padding-bottom: 10px;
-    }
-    .navigation.navbar {
-        float: right;
-        display: inherit !important;
-        padding: 0;
-        width: 100%;
-        margin-top: -49px;
-    }
-    .navigation .navbar-collapse {
-        background: #2e3192;
-        padding: 20px;
-        margin-top: 70px;
-        position: absolute;
-        width: 100%;
-        z-index: 999;
-        box-shadow: 0 0 59px rgba(30, 30, 29, 0.25);
-    }
-    .navigation.navbar-dark .navbar-nav .nav-link {
-        padding: 10px 0;
-        color: #fff;
-    }
-    .navigation.navbar-dark .navbar-toggler {
-        float: right;
-        border: inherit;
-        margin-top: 1px;
-        padding: 0;
-        outline: inherit;
-    }
-    .navigation.navbar-dark .navbar-toggler-icon {
-        /*background: url(menu_icon.png);*/
-        background-repeat: no-repeat;
-        width: 48px;
-    }
-    .d_none {
-        display: none;
+@media (max-width: 360px) {}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1170px;
     }
 }

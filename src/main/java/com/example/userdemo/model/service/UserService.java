@@ -1,7 +1,6 @@
 package com.example.userdemo.model.service;
 
 import com.example.userdemo.model.entity.Users;
-import com.example.userdemo.model.dto.UserDetailVo;
 import com.example.userdemo.model.dto.UserDetailVoRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,15 +8,13 @@ import java.util.List;
 
 public interface UserService {
 
-    public UserDetails loadUserByEmail(String email);
+    List<Users> selectAll();
 
-    public UserDetailVoRequest save(UserDetailVoRequest user);
+    Users selectById(int id);
 
-    public UserDetailVoRequest updateById(UserDetailVoRequest user);
+    UserDetailVoRequest updateById(UserDetailVoRequest user);
 
-    public UserDetailVo selectById(int id);
+    Boolean updateaccountlocked(int id, Boolean accountnonlocked);
 
-    public List<Users> selectAll();
 
-    public Boolean updateaccountlocked(int id, Boolean accountnonlocked);
 }

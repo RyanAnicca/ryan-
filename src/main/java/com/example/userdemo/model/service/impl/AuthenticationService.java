@@ -42,33 +42,36 @@ public class AuthenticationService {
     // 註冊
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
-
-        Date now = new Date();
-        // Name
-        Users users = Users.builder()
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .userphone(request.getUserphone())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role("USER")
-                .registerdata(now)
-                .updatadata(null)
-                .accountnonexpired(true)
-                .iscredentialsnonexpired(true)
-                .isenabled(true)
-                .accountnonlocked(true)
-                .build();
-        userDao.save(users);
-        Users newuser;
-        newuser = userDao.findByEmail(users.getEmail());
-        users.setId(newuser.getId());
-        var jwtToken = jwtService.generateToken(users);
-        var refreshToken = jwtService.generateRefreshToken(users);
-        saveUserToken(users, jwtToken);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
+        Users original = userDao.findByEmail(request.getEmail());
+        if (original == null) {
+            Date now = new Date();
+            // Name
+            Users users = Users.builder()
+                    .username(request.getUsername())
+                    .email(request.getEmail())
+                    .userphone(request.getUserphone())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role("USER")
+                    .registerdata(now)
+                    .updatadata(null)
+                    .accountnonexpired(true)
+                    .iscredentialsnonexpired(true)
+                    .isenabled(true)
+                    .accountnonlocked(true)
+                    .build();
+            userDao.save(users);
+            Users newuser;
+            newuser = userDao.findByEmail(users.getEmail());
+            users.setId(newuser.getId());
+            var jwtToken = jwtService.generateToken(users);
+            var refreshToken = jwtService.generateRefreshToken(users);
+            saveUserToken(users, jwtToken);
+            return AuthenticationResponse.builder()
+                    .accessToken(jwtToken)
+                    .refreshToken(refreshToken)
+                    .build();
+        }
+        throw new IllegalArgumentException("User with email " + request.getEmail() + " already exists");
     }
 
     // 登入

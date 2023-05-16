@@ -8,11 +8,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/api/web/html-controller")
 public class GuestController {
 
-    @RequestMapping("/w")
-    @ResponseBody
-    public String wellcome() {
-        return "wellcome";
-    }
 
     @RequestMapping("/home")
     public String index() {
@@ -23,4 +18,16 @@ public class GuestController {
     public String login() {
         return "login";
     }
+
+    @RequestMapping("/usersdemo")
+    @ResponseBody
+    public String usersdemo() {
+        return "http://localhost:8443/userdemo/api/web/html-controller/users";
+    }
+
+    @RequestMapping("/users")
+    public String users() {
+        return "users";
+    }
+
 }
