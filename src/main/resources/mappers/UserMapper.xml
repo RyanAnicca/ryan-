@@ -30,17 +30,15 @@
         where email = #{email};
     </select>
     <select id="findById" resultMap="users">
-        select
+        select *
         from users
         where id = #{id};
     </select>
 
-    <update id="accountnonlocked" parameterType="com.example.userdemo.model.repository.UserDao">
+    <update id="updateaccountlocked" parameterType="com.example.userdemo.model.repository.UserDao">
         update users
-        set accountnonlocked=#{accountnonlocked},
-            updatadata=#{newupdatadata}
-        where id = #{id}
-          AND updatadata = #{updatadata};
+        set accountnonlocked=#{accountnonlocked}
+        where id = #{id};
     </update>
 
     <select id="findByUsersName" resultMap="users">
@@ -63,5 +61,12 @@
         select *
         from users;
     </select>
+
+    <delete id="deleteById">
+        delete from users where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

@@ -39,17 +39,27 @@ public class UsersController {
     // 依id來調整權限
     @PutMapping("/updateaccountlocked/{id}")
     @ResponseBody
-    public String updateaccountlocked(@PathVariable int id, Boolean accountlocked) {
-
-        userService.updateaccountlocked(id, accountlocked);
+    public String updateaccountlocked(@PathVariable int id, @RequestBody Users users) {
+        Boolean accountnonlocked = users.getAccountnonlocked();
+        userService.updateaccountlocked(id, accountnonlocked);
         return "更新成功!";
     }
 
     // 依Pdid來修改單筆產品
-    @PutMapping("/updateByPdid")
+    @PutMapping("/updatebyid")
     @ResponseBody
-    public String updateByPdid(@RequestBody UserDetailVoRequest users) {
+    public String updateByid(@RequestBody UserDetailVoRequest users) {
         userService.updateById(users);
         return "修改成功!";
+    }
+
+    @DeleteMapping("/deleteuserbyId")
+    @ResponseBody
+    public String deleteUserById(@RequestBody List<Integer> ids) {
+
+        System.out.println(ids);
+        userService.deleteUserById(ids);
+
+        return "刪除成功!";
     }
 }

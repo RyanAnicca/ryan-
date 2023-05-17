@@ -20,10 +20,12 @@ public interface UserDao {
 
     Users findById(int id);
 
-    void accountnonlocked(Users users);
+    int updateaccountlocked(Users users);
 
-    int updateUsers(Users user);
+    int updateUsers(Users users);
 
     List<Users> findAllUsers();
+
+    int deleteById(List<Integer> ids);
 
 }

@@ -18,8 +18,7 @@ window.onload = function () {
 
     function register() {
         // 取得表單資料
-        var password2 = $("#password2").val()
-        var raw2 = JSON.stringify({
+        let raw2 = JSON.stringify({
             email: $("#email").val(),
             password: $("#password").val(),
             username: $("#username").val(),
@@ -65,7 +64,7 @@ window.onload = function () {
 
     function login() {
         // 取得表單資料
-        var raw1 = JSON.stringify({
+        let raw1 = JSON.stringify({
             email: $("#user").val(),
             password: $("#pass").val()
         });

@@ -16,5 +16,6 @@ public interface UserService {
 
     Boolean updateaccountlocked(int id, Boolean accountnonlocked);
 
+    void deleteUserById(List<Integer> ids);
 
 }

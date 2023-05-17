@@ -13,12 +13,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -64,13 +66,19 @@ public class UserServiceImpl implements UserService {
     public Boolean updateaccountlocked(int id, Boolean accountnonlocked) {
         try {
             Users users = userDao.findById(id);
+            System.out.println(id);
             users.setAccountnonlocked(accountnonlocked);
-            userDao.accountnonlocked(users);
+            System.out.println(users);
+            userDao.updateaccountlocked(users);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
+    @Override
+    public void deleteUserById(List<Integer> ids) {
+        userDao.deleteById(ids);
+    }
 
 }
