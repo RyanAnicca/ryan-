@@ -39,9 +39,10 @@
 
     <!-- 刪除 Token -->
     <delete id="deleteToken" parameterType="int">
-        delete
-        from tokens
-        where id = #{id}
+        delete from tokens where user_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </delete>
 
     <!-- 查詢 Token -->

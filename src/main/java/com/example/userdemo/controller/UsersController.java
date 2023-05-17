@@ -49,17 +49,14 @@ public class UsersController {
     @PutMapping("/updatebyid")
     @ResponseBody
     public String updateByid(@RequestBody UserDetailVoRequest users) {
-        userService.updateById(users);
-        return "修改成功!";
+        String result = userService.updateById(users);
+        return result;
     }
 
     @DeleteMapping("/deleteuserbyId")
     @ResponseBody
     public String deleteUserById(@RequestBody List<Integer> ids) {
-
-        System.out.println(ids);
         userService.deleteUserById(ids);
-
         return "刪除成功!";
     }
 }

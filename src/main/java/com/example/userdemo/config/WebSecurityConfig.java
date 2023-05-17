@@ -22,8 +22,8 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 public class WebSecurityConfig {
 
 
-    //    @Autowired
-//    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
     private JwtAuthenticationFilter jwtAuthFilter;
 
@@ -56,7 +56,10 @@ public class WebSecurityConfig {
                     .logout()
                     .logoutUrl("/api/v1/auth/logoutusers")
                     .addLogoutHandler(logoutHandler)
-                    .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
+                    .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                    .and()
+                    .exceptionHandling()
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint);
             return http.build();
         } catch (Exception e) {
             e.printStackTrace();

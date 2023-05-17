@@ -34,8 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private TokenRepository tokenRepository;
 
     private final UserDetailsService userDetailsService;
-    //調整為下列路徑需要通過驗證
-//    private final List<String> securedPaths = Arrays.asList("/api/v1/demo-controller");
 
 
     @Override
@@ -63,7 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if (!(userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
                         && userDetails.isEnabled() && userDetails.isCredentialsNonExpired())) {
 
-                    response.sendRedirect("/userdemo/loginindex?error=user_not_authorized");
+                    response.sendRedirect("/userdemo/login?error=user_not_authorized");
                     return;
                 }
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -75,6 +73,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            }else {
+                // Token无效，重定向到登录页面
+                response.sendRedirect("/userdemo/login?error=token_invalid");
+                return;
             }
         }
         filterChain.doFilter(request, response);

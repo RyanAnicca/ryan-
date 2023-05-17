@@ -12,7 +12,7 @@ public interface UserService {
 
     Users selectById(int id);
 
-    UserDetailVoRequest updateById(UserDetailVoRequest user);
+    String updateById(UserDetailVoRequest user);
 
     Boolean updateaccountlocked(int id, Boolean accountnonlocked);
 

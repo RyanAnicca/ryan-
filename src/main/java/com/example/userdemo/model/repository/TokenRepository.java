@@ -13,7 +13,7 @@ public interface TokenRepository {
     void saveAll(List<Tokens> tokens);
     void updateToken(Tokens token);
 
-    void deleteToken(int id);
+    void deleteToken(List<Integer> ids);
 
     Tokens findTokenById(int id);
 
