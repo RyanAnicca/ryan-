@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Data
 public class UserDetailVoRequest {
-
+    private int id;
     private String email;
     private String password;
     private String username;

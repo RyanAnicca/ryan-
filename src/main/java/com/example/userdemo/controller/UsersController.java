@@ -56,6 +56,7 @@ public class UsersController {
     @DeleteMapping("/deleteuserbyId")
     @ResponseBody
     public String deleteUserById(@RequestBody List<Integer> ids) {
+        System.out.println("test");
         userService.deleteUserById(ids);
         return "刪除成功!";
     }

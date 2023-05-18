@@ -52,7 +52,7 @@ window.onload = function () {
                 contentType: 'application/json',
                 data: raw2,
                 success: function (data) {
-                    alert(data);
+                    alert("註冊成功");
                     window.location.href = "/userdemo/api/web/html-controller/login";
                 }
             });

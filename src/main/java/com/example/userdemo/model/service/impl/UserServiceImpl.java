@@ -48,20 +48,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String updateById(UserDetailVoRequest user) {
-        Users original = userDao.findByEmail(user.getEmail());
+        Users original = userDao.findById(user.getId());
+        String newEmail = user.getEmail();
+        Users existingUser = userDao.findByEmail(newEmail);
 
-        if (original != null) {
-            if (!original.getUpdatadata().equals(user.getUpdatadata())) {
+        if (existingUser == null || existingUser.getId() == original.getId()) {
+            // 如果新的帐号在数据库中不存在或者为原始帐号本身，可以进行其他操作
+            if (original.getUpdatadata() != user.getUpdatadata()) {
+
                 // 日期不同，返回自定义信息给前端
                 return "帳號已被其他人修改";
             } else {
-                // 日期相同，判断邮箱相同，直接返回"此帐号已有人使用"
-                if (original.getEmail().equals(user.getEmail())) {
-                    return "此帳號已有人使用";
-                }
                 // 日期相同，继续进行其他操作
                 Users newUsers = new Users();
                 Date now = new Date();
+                newUsers.setId(user.getId());
                 newUsers.setEmail(user.getEmail());
                 newUsers.setPassword(bcryptEncoder.encode(user.getPassword()));
                 newUsers.setUsername(user.getUsername());
@@ -72,7 +73,7 @@ public class UserServiceImpl implements UserService {
                 return "修改成功!";
             }
         } else {
-            throw new IllegalArgumentException("User with email " + user.getEmail() + " does not exist");
+            throw new IllegalArgumentException("User with email " + user.getEmail() + " already exists");
         }
     }
 
@@ -81,9 +82,7 @@ public class UserServiceImpl implements UserService {
     public Boolean updateaccountlocked(int id, Boolean accountnonlocked) {
         try {
             Users users = userDao.findById(id);
-            System.out.println(id);
             users.setAccountnonlocked(accountnonlocked);
-            System.out.println(users);
             userDao.updateaccountlocked(users);
             return true;
         } catch (Exception e) {

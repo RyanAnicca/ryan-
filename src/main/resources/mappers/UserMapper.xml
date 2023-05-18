@@ -52,8 +52,8 @@
             password=#{password},
             username=#{username},
             userphone=#{userphone},
-            updatadata=#{updatadata},
-            WHERE id = #{id}
+            updatadata=#{updatadata}
+        WHERE id = #{id}
     </update>
 
     <select id="findAllUsers" resultMap="users">

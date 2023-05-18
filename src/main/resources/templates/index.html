@@ -2,6 +2,12 @@
 <html>
 
 <head>
+    <style>
+        td {
+            border: 2px black solid;
+            background-color: lightblue;
+        }
+    </style>
     <!-- Basic -->
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -37,13 +43,13 @@
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg custom_nav-container ">
                 <a class="navbar-brand" href="/userdemo/index.html">
-            <span>
-              Cryptop
-            </span>
+                        <span>
+                            Cryptop
+                        </span>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -51,9 +57,9 @@
                     <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
                         <ul class="navbar-nav  ">
                             <li class="nav-item active">
-                                <a class="nav-link" href="http://localhost:8443/userdemo/api/web/html-controller/home">Home
-                                    <span
-                                            class="sr-only">(current)</span></a>
+                                <a class="nav-link"
+                                   href="http://localhost:8443/userdemo/api/web/html-controller/home">Home
+                                    <span class="sr-only">(current)</span></a>
                             </li>
 
                             <li class="nav-item">
@@ -62,7 +68,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://localhost:8443/userdemo/api/web/html-controller/login">
+                                <a class="nav-link"
+                                   href="http://localhost:8443/userdemo/api/web/html-controller/login">
                                     Login</a>
                             </li>
                             <li class="nav-item">
@@ -260,9 +267,9 @@
                 <div class="info_contact">
                     <div class="info_logo">
                         <a href="index.html">
-                <span>
-                  Cryptop
-                </span>
+                                <span>
+                                    Cryptop
+                                </span>
                         </a>
                     </div>
                     <h5>
@@ -385,7 +392,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
 </script>
 <!-- owl carousel script
-  -->
+-->
 <script type="text/javascript">
     $(".owl-carousel").owlCarousel({
         loop: true,
@@ -449,37 +456,87 @@
                 response.json().then(function (n) {
                     console.log(n);
                     $("#userdemobanner").empty();
-                    var banners = document.getElementById("userdemobanner");
+                    let banners = document.getElementById("userdemobanner");
 
-                    for (var i = 0; i < n.length; i++) {
-                        //创建一个div
-                        var div = document.createElement("div");
-                        //设置div的id
-                        div.id = "abc";
-                        div.click = "selectbyid()";
-                        let buttonColor = n[i].accountnonlocked ? "green" : "red";
-                        //设置子div的其他属性，直接通过字符串连接的方式连接即可。动态值放在引号外面就行
-                        div.innerHTML =
-                            '<input type="checkbox" id="checkbox' + n[i].id + '">' +
-                            '<div id="' + n[i].id + '" class="img-box">' +
-                            '<h5>姓名:' + n[i].username + '</h5>' +
-                            '<p>帳號:' + n[i].email + '</p>' +
-                            '<div class="detail-box">' +
-                            '<p>電話' + n[i].userphone + '</p>' +
-                            '<p>建立時間' + n[i].registerdata + '</p>' +
-                            '<p>修改時間' + n[i].updatadata + '</p>' +
-                            '</div>' +
-                            '<button style="background-color: ' + buttonColor + '" onclick="changelocked(' + n[i].id + ', ' + n[i].accountnonlocked + ')">Click Me</button>' +
-                            '<button onclick="modifyUser(' + n[i].id + ')">修改</button>' + // 添加修改按钮
-                            '</div> ';
-                        banners.appendChild(div);
+                    // Create the table element
+                    let table = document.createElement("table");
+
+                    // Create the table header row
+                    let headerRow = document.createElement("tr");
+                    headerRow.innerHTML = "<th></th><th>姓名</th><th>帳號</th><th>電話</th><th>建立時間</th><th>修改時間</th><th>封鎖</th><th>修改</th>";
+                    table.appendChild(headerRow);
+
+                    // Loop through the data and create table rows
+                    for (let i = 0; i < n.length; i++) {
+                        let rowData = n[i];
+
+                        // Create a table row
+                        let row = document.createElement("tr");
+
+                        // Create checkbox cell
+                        let checkboxCell = document.createElement("td");
+                        let checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.id = "checkbox" + rowData.id;
+                        checkboxCell.appendChild(checkbox);
+                        row.appendChild(checkboxCell);
+
+                        // Create cells for other data
+                        let nameCell = document.createElement("td");
+                        nameCell.textContent = rowData.username;
+                        row.appendChild(nameCell);
+
+                        let accountCell = document.createElement("td");
+                        accountCell.textContent = rowData.email;
+                        row.appendChild(accountCell);
+
+                        let phoneCell = document.createElement("td");
+                        phoneCell.textContent = rowData.userphone;
+                        row.appendChild(phoneCell);
+
+                        let createdCell = document.createElement("td");
+                        createdCell.textContent = rowData.registerdata;
+                        row.appendChild(createdCell);
+
+                        let modifiedCell = document.createElement("td");
+                        modifiedCell.textContent = rowData.updatadata;
+                        row.appendChild(modifiedCell);
+
+                        // Create the block button cell
+                        let blockCell = document.createElement("td");
+                        let blockButton = document.createElement("button");
+                        let buttonColor = rowData.accountnonlocked ? "green" : "red";
+                        blockButton.style.backgroundColor = buttonColor;
+                        blockButton.textContent = "封鎖";
+                        blockButton.onclick = function () {
+                            changelocked(rowData.id, rowData.accountnonlocked);
+                        };
+                        blockCell.appendChild(blockButton);
+                        row.appendChild(blockCell);
+
+                        // Create the modify button cell
+                        let modifyCell = document.createElement("td");
+                        let modifyButton = document.createElement("button");
+                        modifyButton.textContent = "修改";
+                        modifyButton.onclick = function () {
+                            modifyUser(rowData.id);
+                        };
+                        modifyCell.appendChild(modifyButton);
+                        row.appendChild(modifyCell);
+
+                        // Append the row to the table
+                        table.appendChild(row);
                     }
+
+                    // Append the table to the banners element
+                    banners.appendChild(table);
+
                     // 創建刪除按鈕
                     let deleteButton = document.createElement("button");
                     deleteButton.innerHTML = "刪除";
                     deleteButton.onclick = function () {
                         // 創建空陣列來存儲選中項目的ID
-                        var selectedIds = [];
+                        let selectedIds = [];
 
                         // 遍歷勾選框，將選中項目的ID添加到陣列中
                         let checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -495,6 +552,10 @@
                         console.log(selectedIds)
                     };
                     banners.appendChild(deleteButton);
+                    let addButton = document.createElement("button");
+                    addButton.textContent = "新增使用者";
+                    addButton.onclick = adduser;
+                    banners.appendChild(addButton);
                 });
             });
     }
@@ -518,8 +579,7 @@
             })
             .then(function (data) {
                 alert(data)
-                // 更新按钮颜色
-                window.location.href = "http://localhost:8443/userdemo/api/web/html-controller/home";
+                selectAllUsers();
             })
             .catch(function (error) {
                 console.error("Error:", error);
@@ -535,24 +595,23 @@
             myHeaders.append("Authorization", "Bearer " + sessionjwt);
             console.log(selectedIds)
 
-            selectedIds.forEach(function (id) {
-                fetch('/userdemo/user/deleteuserbyId', {
-                    method: 'DELETE',
-                    headers: myHeaders,
-                    body: JSON.stringify(selectedIds)
+
+            fetch('/userdemo/user/deleteuserbyId', {
+                method: 'DELETE',
+                headers: myHeaders,
+                body: JSON.stringify(selectedIds)
+            })
+                .then(function (response) {
+                    return response.text(); // 获取响应的文本内容
                 })
-                    .then(function (response) {
-                        return response.text(); // 获取响应的文本内容
-                    })
-                    .then(function (data) {
-                        alert(data)
-                        // 更新按钮颜色
-                        window.location.href = "http://localhost:8443/userdemo/api/web/html-controller/home";
-                    })
-                    .catch(function (error) {
-                        console.error("Error:", error);
-                    });
-            });
+                .then(function (data) {
+                    alert(data)
+                    selectAllUsers();
+                })
+                .catch(function (error) {
+                    console.error("Error:", error);
+                });
+
         } else {
             // 取消刪除時的處理
         }
@@ -562,66 +621,116 @@
         if (confirm("確定修改使用者資料？")) {
             $("#userdemobanner").empty();
 
-            let form = document.createElement("form");
-            form.id = "formnew";
+            let table = document.createElement("table");
+            table.id = "formnew";
 
-            let h3 = document.createElement("h3");
-            h3.textContent = "修改會員";
-            form.appendChild(h3);
+            let thead = document.createElement("thead");
+            let trHead = document.createElement("tr");
+            let th1 = document.createElement("th");
+            th1.textContent = "用戶id";
+            let th2 = document.createElement("th");
+            th2.textContent = "使用者帳號";
+            let th3 = document.createElement("th");
+            th3.textContent = "使用者密碼";
+            let th4 = document.createElement("th");
+            th4.textContent = "使用者名稱";
+            let th5 = document.createElement("th");
+            th5.textContent = "使用者電話";
+            let th6 = document.createElement("th");
+            th6.textContent = "創建日期";
+            let th7 = document.createElement("th");
+            th7.textContent = "修改日期";
 
-            let idInput = document.createElement("input");
-            idInput.type = "text";
-            idInput.name = "id";
-            idInput.id = "id";
-            idInput.readOnly = true;
-            form.appendChild(idInput);
-            let idInput1 = document.createElement("input");
-            idInput1.type = "text";
-            idInput1.name = "username";
-            idInput1.id = "username";
-            form.appendChild(idInput1);
-            let idInput2 = document.createElement("input");
-            idInput2.type = "text";
-            idInput2.name = "email";
-            idInput2.id = "email";
-            form.appendChild(idInput2);
-            let idInput3 = document.createElement("input");
-            idInput3.type = "text";
-            idInput3.name = "password";
-            idInput3.id = "password";
-            form.appendChild(idInput3);
-            let idInput4 = document.createElement("input");
-            idInput4.type = "text";
-            idInput4.name = "userphone";
-            idInput4.id = "userphone";
-            form.appendChild(idInput4);
-            let idInput5 = document.createElement("input");
-            idInput5.type = "text";
-            idInput5.name = "registerdata";
-            idInput5.id = "registerdata";
-            idInput5.readOnly = true;
-            form.appendChild(idInput5);
-            let idInput6 = document.createElement("input");
-            idInput6.type = "text";
-            idInput6.name = "updatadata";
-            idInput6.id = "updatadata";
-            idInput6.readOnly = true;
-            form.appendChild(idInput6);
+            trHead.appendChild(th1);
+            trHead.appendChild(th2);
+            trHead.appendChild(th3);
+            trHead.appendChild(th4);
+            trHead.appendChild(th5);
+            trHead.appendChild(th6);
+            trHead.appendChild(th7);
+            thead.appendChild(trHead);
 
-            let submitButton = document.createElement("input");
-            submitButton.type = "button";
-            submitButton.value = "提交";
-            submitButton.onclick = submitForm;
-            form.appendChild(submitButton);
+            let tbody = document.createElement("tbody");
+            let trData = document.createElement("tr");
+            let td1 = document.createElement("td");
+            let td2 = document.createElement("td");
+            let td3 = document.createElement("td");
+            let td4 = document.createElement("td");
+            let td5 = document.createElement("td");
+            let td6 = document.createElement("td");
+            let td7 = document.createElement("td");
+
+            let input1 = document.createElement("input");
+            input1.type = "text";
+            input1.name = "id";
+            input1.id = "id";
+            input1.readOnly = true;
+            td1.appendChild(input1);
+
+            let input2 = document.createElement("input");
+            input2.type = "text";
+            input2.name = "email";
+            input2.id = "email";
+            td2.appendChild(input2);
+
+            let input3 = document.createElement("input");
+            input3.type = "text";
+            input3.name = "password";
+            input3.id = "password";
+            td3.appendChild(input3);
+
+            let input4 = document.createElement("input");
+            input4.type = "text";
+            input4.name = "username";
+            input4.id = "username";
+            td4.appendChild(input4);
+
+            let input5 = document.createElement("input");
+            input5.type = "text";
+            input5.name = "userphone";
+            input5.id = "userphone";
+            td5.appendChild(input5);
+
+            let input6 = document.createElement("input");
+            input6.type = "text";
+            input6.name = "registerdata";
+            input6.id = "registerdata";
+            input6.readOnly = true;
+            td6.appendChild(input6);
+
+            let input7 = document.createElement("input");
+            input7.type = "text";
+            input7.name = "updatadata";
+            input7.id = "updatadata";
+            input7.readOnly = true;
+            td7.appendChild(input7);
+            td1.style.width = "50%"; // 添加样式设置宽度为一半
+            trData.appendChild(td1);
+            trData.appendChild(td2);
+            trData.appendChild(td3);
+            trData.appendChild(td4);
+            trData.appendChild(td5);
+            trData.appendChild(td6);
+            trData.appendChild(td7);
+            tbody.appendChild(trData);
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+
+            let submitButton = document.createElement("button");
+            submitButton.textContent = "提交";
+            submitButton.onclick = submitupdate;
+            table.appendChild(submitButton);
 
             $("#userdemobanner").empty();
-            $("#userdemobanner").append(form);
+            $("#userdemobanner").append(table);
+
             let sessionjwt = sessionStorage.getItem("jwtToken");
             let myHeaders = new Headers();
 
             myHeaders.append("Content-Type", "application/json");
             myHeaders.append("Authorization", "Bearer " + sessionjwt);
-            console.log(id)
+
             fetch('/userdemo/user/selectbyid/' + id, {
                 method: 'GET',
                 headers: myHeaders
@@ -637,7 +746,6 @@
                     $('#id').val(data.id);
                     $('#username').val(data.username);
                     $('#email').val(data.email);
-                    $('#password').val(data.password);
                     $('#registerdata').val(data.registerdata);
                     $('#userphone').val(data.userphone);
                     $('#updatadata').val(data.updatadata);
@@ -651,37 +759,174 @@
     }
 
 
-    function submitForm() {
-        let formData = new FormData(document.getElementById("formnew"));
-        let jsonData = {};
-        for (var [key, value] of formData.entries()) {
-            if (value instanceof File) {
-                continue;
-            }
-            jsonData[key] = value;
-        }
-        console.log(jsonData)
-        let sessionjwt = sessionStorage.getItem("jwtToken");
-        let myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer " + sessionjwt);
+    function submitupdate() {
+        let jsonData = {
+            id: document.getElementById('id').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value,
+            username: document.getElementById('username').value,
+            userphone: document.getElementById('userphone').value,
+            registerdata: document.getElementById('registerdata').value,
+            updatadata: document.getElementById('updatadata').value,
+        };
 
+        let sessionjwt = sessionStorage.getItem('jwtToken');
+        let myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Authorization', 'Bearer ' + sessionjwt);
+        console.log(jsonData)
         fetch('/userdemo/user/updatebyid', {
             method: 'PUT',
+            body: JSON.stringify(jsonData), // 将 jsonData 转换为 JSON 字符串并作为请求的 body
             headers: myHeaders,
-            body: JSON.stringify(jsonData)
         })
             .then(function (response) {
                 return response.text(); // 获取响应的文本内容
             })
             .then(function (data) {
-                alert(data)
-                // 更新按钮颜色
-                window.location.href = "http://localhost:8443/userdemo/api/web/html-controller/home";
+                alert(data);
+                selectAllUsers();
             })
             .catch(function (error) {
-                console.error("Error:", error);
+                console.error('Error:', error);
             });
+    }
+
+    function adduser() {
+        // 清空用户列表
+        $("#userdemobanner").empty();
+
+        // 创建注册表单元素
+        let signUpForm = document.createElement("div");
+        signUpForm.classList.add("sign-up-form");
+
+        // 创建 Email Address 输入框
+        let emailLabel = document.createElement("label");
+        emailLabel.classList.add("label");
+        emailLabel.textContent = "Email Address";
+
+        let emailInput = document.createElement("input");
+        emailInput.id = "email";
+        emailInput.type = "text";
+        emailInput.classList.add("input");
+        emailInput.placeholder = "註冊帳號(信箱)";
+
+        signUpForm.appendChild(emailLabel);
+        signUpForm.appendChild(emailInput);
+
+        // 创建 Password 输入框
+        let passwordLabel = document.createElement("label");
+        passwordLabel.classList.add("label");
+        passwordLabel.textContent = "Password";
+
+        let passwordInput = document.createElement("input");
+        passwordInput.id = "password";
+        passwordInput.type = "password";
+        passwordInput.classList.add("input");
+        passwordInput.dataset.type = "password";
+        passwordInput.placeholder = "註冊密碼";
+
+        signUpForm.appendChild(passwordLabel);
+        signUpForm.appendChild(passwordInput);
+
+        // 创建 Repeat Password 输入框
+        let repeatPasswordLabel = document.createElement("label");
+        repeatPasswordLabel.classList.add("label");
+        repeatPasswordLabel.textContent = "Repeat Password";
+
+        let repeatPasswordInput = document.createElement("input");
+        repeatPasswordInput.id = "password2";
+        repeatPasswordInput.type = "password";
+        repeatPasswordInput.classList.add("input");
+        repeatPasswordInput.dataset.type = "password";
+        repeatPasswordInput.placeholder = "密碼二次確認";
+
+        signUpForm.appendChild(repeatPasswordLabel);
+        signUpForm.appendChild(repeatPasswordInput);
+
+        // 创建 Username 输入框
+        let usernameLabel = document.createElement("label");
+        usernameLabel.classList.add("label");
+        usernameLabel.textContent = "Username";
+
+        let usernameInput = document.createElement("input");
+        usernameInput.id = "username";
+        usernameInput.type = "text";
+        usernameInput.classList.add("input");
+        usernameInput.placeholder = "用戶名稱";
+
+        signUpForm.appendChild(usernameLabel);
+        signUpForm.appendChild(usernameInput);
+
+        // 创建 Userphone 输入框
+        let userphoneLabel = document.createElement("label");
+        userphoneLabel.classList.add("label");
+        userphoneLabel.textContent = "Userphone";
+
+        let userphoneInput = document.createElement("input");
+        userphoneInput.id = "userphone";
+        userphoneInput.type = "text";
+        userphoneInput.classList.add("input");
+        userphoneInput.placeholder = "用戶電話";
+
+        signUpForm.appendChild(userphoneLabel);
+        signUpForm.appendChild(userphoneInput);
+
+        // 创建注册按钮
+        let registerButton = document.createElement("button");
+        registerButton.textContent = "註冊";
+        registerButton.onclick = registeruser;
+
+
+        signUpForm.appendChild(registerButton);
+
+        // 将注册表单添加到指定位置
+        $("#userdemobanner").append(signUpForm);
+    }
+
+    function registeruser() {
+        // 取得表單資料
+        let raw = JSON.stringify({
+            email: $("#email").val(),
+            password: $("#password").val(),
+            username: $("#username").val(),
+            userphone: $("#userphone").val()
+        });
+        if ($("#email").val() === "") {
+            alert('帳號未填寫');
+            return;
+        }
+        if ($("#password").val() === "") {
+            alert('密碼未填寫');
+            return;
+        }
+        if ($("#username").val() === "") {
+            alert('名稱未填寫');
+            return;
+        }
+        if ($("#userphone").val() === "") {
+            alert('電話未填寫');
+            return;
+        }
+        if ($("#password").val() != $("#password2").val()) {
+            alert('兩次密碼不相符');
+            return;
+        }
+        if (confirm("確定創建帳號?")) {
+            $.ajax({
+                type: 'post',
+                url: '/userdemo/api/v1/auth/register',
+                dataType: 'text',
+                contentType: 'application/json',
+                data: raw,
+                success: function (data) {
+                    alert("註冊成功");
+                    selectAllUsers();
+                }
+            });
+
+        } else {
+        }
     }
 
 </script>
