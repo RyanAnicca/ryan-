@@ -18,6 +18,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.*;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -76,7 +77,7 @@ public class AuthenticationService {
 
     // 登入
     @Transactional
-    public AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletResponse response, HttpSession session) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -98,8 +99,8 @@ public class AuthenticationService {
                     .accessToken(jwtToken)
                     .refreshToken(refreshToken)
                     .build();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (AuthenticationException e) {
+            throw new Exception("帳密錯誤");
         }
 
     }

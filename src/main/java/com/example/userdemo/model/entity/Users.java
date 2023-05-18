@@ -39,12 +39,12 @@ public class Users implements UserDetails {
     @Column(name = "userphone")
     private String userphone;
     // 電話
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "registerdata")
     private Date registerdata;
     // 會員建立日期
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "updatadata")
     private Date updatadata;
     // 會員修改日期

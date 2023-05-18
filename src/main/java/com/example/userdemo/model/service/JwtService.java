@@ -96,11 +96,11 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parserBuilder()     // 创建一个 JWT 解析器构建器
+                .setSigningKey(getSignInKey())   // 设置签名密钥，用于验证令牌的真实性
+                .build()     // 构建 JWT 解析器
+                .parseClaimsJws(token)     // 解析令牌
+                .getBody();     // 获取解析后的令牌内容（声明）
     }
 
     private Key getSignInKey() {

@@ -54,7 +54,14 @@ window.onload = function () {
                 success: function (data) {
                     alert("註冊成功");
                     window.location.href = "/userdemo/api/web/html-controller/login";
-                }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    if (xhr.status === 400) {
+                        alert("帳號已有人使用");
+                    } else {
+                        alert("發生錯誤：" + xhr.status);
+                    }
+                },
             });
 
         } else {
@@ -82,14 +89,28 @@ window.onload = function () {
             dataType: 'text',
             contentType: 'application/json',
             data: raw1,
-            success: function (data) {
-                // 解析 JSON 字符串为 JavaScript 对象
-                const parsedData = JSON.parse(data);
-                // 获取 access_token 的值
-                const accessToken = parsedData.access_token;
-                sessionStorage.setItem('jwtToken', accessToken);
-                window.location.href = "/userdemo/api/web/html-controller/home";
-            }
+            success: function (data, textStatus, xhr) {
+
+                if (xhr.status === 400) {
+                    alert("帳號密碼錯誤");
+                } else {
+                    // 解析 JSON 字符串为 JavaScript 对象
+                    const parsedData = JSON.parse(data);
+                    // 获取 access_token 的值
+                    const accessToken = parsedData.access_token;
+                    sessionStorage.setItem('jwtToken', accessToken);
+                    alert("登入成功");
+                    window.location.href = "/userdemo/api/web/html-controller/home";
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                if (xhr.status === 400) {
+                    alert("帳號密碼錯誤");
+                } else {
+                    alert("發生錯誤：" + xhr.status);
+                }
+            },
+
         });
 
     }

@@ -28,4 +28,6 @@ public interface UserDao {
 
     int deleteById(List<Integer> ids);
 
+    List<Integer> selectByList(List<Integer> ids);
+
 }

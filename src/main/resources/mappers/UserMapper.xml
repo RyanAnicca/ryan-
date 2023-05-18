@@ -68,4 +68,11 @@
         </foreach>
     </delete>
 
+    <select id="selectByList" resultType="arraylist">
+        select id from users where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
 </mapper>

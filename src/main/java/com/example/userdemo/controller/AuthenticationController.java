@@ -40,7 +40,7 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request, HttpServletResponse response, HttpSession session
-    ) {
+    ) throws Exception {
 
         return ResponseEntity.ok(authenticationService.authenticate(request,response,session));
     }

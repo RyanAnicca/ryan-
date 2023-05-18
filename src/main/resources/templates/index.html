@@ -766,8 +766,8 @@
             password: document.getElementById('password').value,
             username: document.getElementById('username').value,
             userphone: document.getElementById('userphone').value,
-            registerdata: document.getElementById('registerdata').value,
-            updatadata: document.getElementById('updatadata').value,
+            registerdata: new Date(document.getElementById('registerdata').value),
+            updatadata: new Date(document.getElementById('updatadata').value),
         };
 
         let sessionjwt = sessionStorage.getItem('jwtToken');
@@ -919,13 +919,19 @@
                 dataType: 'text',
                 contentType: 'application/json',
                 data: raw,
-                success: function (data) {
+                success: function (data, textStatus, xhr) {
                     alert("註冊成功");
                     selectAllUsers();
-                }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    if (xhr.status === 400) {
+                        alert("帳號已有人使用");
+                    } else {
+                        alert("發生錯誤：" + xhr.status);
+                    }
+                },
             });
 
-        } else {
         }
     }
 
