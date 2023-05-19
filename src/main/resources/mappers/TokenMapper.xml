@@ -59,21 +59,21 @@
     </select>
 
     <!-- 根據使用者 ID 查詢所有有效的 Token -->
-<!--    <select id="findAllValidTokenByUser" resultMap="tokens" parameterType="int">-->
-<!--        select *-->
-<!--        from tokens t-->
-<!--                 inner join users u on t.user_id = u.id-->
-<!--        where u.id = #{id}-->
-<!--          and (t.expired = false or t.revoked = false)-->
-<!--    </select>-->
-
     <select id="findAllValidTokenByUser" resultMap="tokens" parameterType="int">
         select *
         from tokens t
                  inner join users u on t.user_id = u.id
         where u.id = #{id}
-          and (t.expired = 0 or t.revoked = 0)
+          and (t.expired = false or t.revoked = false)
     </select>
+
+<!--    <select id="findAllValidTokenByUser" resultMap="tokens" parameterType="int">-->
+<!--        select *-->
+<!--        from tokens t-->
+<!--                 inner join users u on t.user_id = u.id-->
+<!--        where u.id = #{id}-->
+<!--          and (t.expired = 0 or t.revoked = 0)-->
+<!--    </select>-->
 
     <!-- 根據 Token 查詢 Token -->
     <select id="findByToken" resultMap="tokens" parameterType="string">
